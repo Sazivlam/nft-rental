@@ -53,7 +53,7 @@ import {
   rarityLevel,
   isThirdPersonAtom,
   transactionData,
-  snackbarTextAtom, 
+  snackbarTextAtom,
   snackbarControllerAtom,
 } from "../../recoils/atoms";
 import {
@@ -174,11 +174,11 @@ async function getRevertReason(txHash, setSnackbarText, setSnackbarController) {
   const tx = await window.web3.eth.getTransaction(txHash)
 
   var result = await window.web3.eth.call(tx)
-  .then((data) => {console.log("DATAAAAA", data)})
-  .catch((error) => {
-    var index = error.message.indexOf("{");
-    return JSON.parse(error.message.substring(index).trim()).originalError.message;
-  })
+    .then((data) => { console.log("DATAAAAA", data) })
+    .catch((error) => {
+      var index = error.message.indexOf("{");
+      return JSON.parse(error.message.substring(index).trim()).originalError.message;
+    })
   setSnackbarController(true);
   setSnackbarText(result);
   return result;
@@ -249,7 +249,7 @@ const Profile = (props) => {
   const unFilteredMiddles = useRecoilValue(unFilteredGetMiddles);
   const unFilteredBottoms = useRecoilValue(unFilteredGetBottoms);
 
-  if(!window.eth && !window.ethereum){
+  if (!window.eth && !window.ethereum) {
     window.location.href = window.location.origin;
   }
   // //const [transactions, setTransactions] = useRecoilState(transactionData);
@@ -388,7 +388,7 @@ const Profile = (props) => {
       });
     setIsLoading(false);
     console.log("useeffect 😫😩😫😩");
-  }, [window.web3.eth,buttonTrigger]);
+  }, [window.web3.eth, buttonTrigger]);
 
   const UpperProfile = () => {
     const classes = useStyles();
@@ -409,33 +409,21 @@ const Profile = (props) => {
         justify="space-around"
         alignItems="center"
       >
-        <Grid className={classes.profileLeft} item xs={4}>
-          <Avatar
-            variant="square"
-            alt="Remy Sharp"
-            src={unFilteredHeads.findIndex((item) => profileData.head === item.tokenId) !==
-              -1
-                ? "https://ipfs.io/ipfs/"+data[data.findIndex((item) => profileData.head === item.tokenId)].cid
-                : 0
-              }
-            className={classes.large}
-          />
-        </Grid>
 
         {/* <Grid item xs={6} direction="row"> */}
-        <div style={{ display: "flex", flexDirection: "row" }}>
+        <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
           {isSetting ? (
             <TextField
               value={usernameEditText}
               onChange={(event) => setUsernameEditText(event.target.value)}
-              // onChange={(event) => {
-              //   // event.stopPropagation();
-              //   // event.preventDefault();
-              //   setUsernameEditText(event.target.value);
-              //   console.log("event.target.value", event.target.value);
-              //   console.log("event.target", event.target);
-              //   console.log("issetting", isSetting);
-              // }}
+            // onChange={(event) => {
+            //   // event.stopPropagation();
+            //   // event.preventDefault();
+            //   setUsernameEditText(event.target.value);
+            //   console.log("event.target.value", event.target.value);
+            //   console.log("event.target", event.target);
+            //   console.log("issetting", isSetting);
+            // }}
             />
           ) : (
             <Typography variant="h5">
@@ -463,7 +451,7 @@ const Profile = (props) => {
                   })
                   .on("confirmation", function (confirmationNumber, receipt) {
                     console.log(confirmationNumber, receipt);
-                   // setButtonTrigger(!buttonTrigger);
+                    // setButtonTrigger(!buttonTrigger);
                   })
                   .on("receipt", async function (receipt) {
                     // receipt example
@@ -473,8 +461,8 @@ const Profile = (props) => {
                         console.log(data);
                         setFirstPersonUsername(data.username);
                         setIsSetting(false);
-                       // setButtonTrigger(!buttonTrigger);
-                       window.location.reload();
+                        // setButtonTrigger(!buttonTrigger);
+                        window.location.reload();
                       }
                     );
                   })
@@ -535,17 +523,17 @@ const Profile = (props) => {
         .send({ from: myAddress })
         .on("transactionHash", function (hash) {
           console.log(hash);
-         // setButtonTrigger(!buttonTrigger);
+          // setButtonTrigger(!buttonTrigger);
         })
         .on("confirmation", function (confirmationNumber, receipt) {
           console.log(confirmationNumber, receipt);
-         // setButtonTrigger(!buttonTrigger);
+          // setButtonTrigger(!buttonTrigger);
         })
         .on("receipt", async function (receipt) {
           // receipt example
           console.log(receipt);
           window.location.reload();
-         // setButtonTrigger(!buttonTrigger);
+          // setButtonTrigger(!buttonTrigger);
         })
         .on("error", async function (error, receipt) {
           console.log(error, receipt);
@@ -555,54 +543,9 @@ const Profile = (props) => {
 
     return (
       <>
-        <Grid
-          style={{ marginTop: 30 }}
-          container
-          direction="row"
-          justify="space-around"
-          alignItems="flex-start"
-        >
-          {/* {heads.length() + middles.length() + bottoms.length()} */}
-          <Grid item xs={3}>
-            <Typography variant="h5">
-              #Items
-              {/* {console.log("transactions", transactions)} */}
-            </Typography>
-            <Typography variant="h5" className={classes.numberTextStyle}>
-              {unFilteredHeads.length + unFilteredMiddles.length + unFilteredBottoms.length}
-            </Typography>
-            <Typography variant="h5">Spent</Typography>
-            <MyTooltip title={window.web3.utils.fromWei(spentBought.toString())} arrow>
-              <Typography variant="h5" className={classes.numberTextStyle}>
-                {window.web3.utils.fromWei(spentBought.toString()).slice(0,4)} Ξ
-              </Typography>
-            </MyTooltip>
-            <Typography variant="h5">Earned</Typography>
-            <MyTooltip title={window.web3.utils.fromWei(earnedSold.toString())} arrow>
-              <Typography variant="h5" className={classes.numberTextStyle}>
-                {window.web3.utils.fromWei(earnedSold.toString()).slice(0,4)} Ξ
-              </Typography>
-            </MyTooltip>
-          </Grid>
-          <Grid item xs={4}>
-            <Typography variant="h5">#combinations</Typography>
-            <Typography variant="h5" className={classes.numberTextStyle}>
-              {(unFilteredHeads.length + 1) * (unFilteredMiddles.length + 1) * (unFilteredBottoms.length + 1)}
-            </Typography>
-            <Typography variant="h5">#Bought</Typography>
-            <Typography variant="h5" className={classes.numberTextStyle}>
-              {numberBought}
-            </Typography>
-            <Typography variant="h5">#Sold</Typography>
-            <Typography variant="h5" className={classes.numberTextStyle}>
-              {numberSold}
-            </Typography>
-          </Grid>
-        </Grid>
-
         {!isThirdPerson && (
           <>
-            <div style={{ display: "flex", flexDirection: "row" }}>{/*  */}
+            <div style={{ display: "flex", flexDirection: "row", marginTop: 15 }}>{/*  */}
               <MyTooltip title={window.web3.utils.fromWei(profileData.userBalance.toString())} placement="top" arrow>
                 <Typography>Balance: {window.web3.utils.fromWei(profileData.userBalance.toString()).slice(0, 4)} Ξ</Typography>
               </MyTooltip>
@@ -612,7 +555,7 @@ const Profile = (props) => {
                 error={withdrawMoneyTextFieldError}
                 onChange={(event) => {
                   // console.log(event.target.value);
-                  if(event.target.value.toString().match(regex)) {
+                  if (event.target.value.toString().match(regex)) {
                     setwithdrawMoneyTextFieldError(false);
                   }
                   else {
@@ -690,20 +633,6 @@ const Profile = (props) => {
       <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />
     ));
 
-    const StyledTab = withStyles((theme) => ({
-      root: {
-        textTransform: "none",
-        color: "#000",
-        fontWeight: theme.typography.fontWeightRegular,
-        fontSize: theme.typography.pxToRem(15),
-        marginRight: theme.spacing(1),
-        "&:focus": {
-          opacity: 1,
-        },
-        alignSelf: "center",
-      },
-    }))((props) => <Tab disableRipple {...props} />);
-
     const [value, setValue] = useRecoilState(tabValueState);
     const username = useRecoilValue(myUsername);
     const address = useRecoilValue(myAddress);
@@ -726,51 +655,6 @@ const Profile = (props) => {
         justify="space-around"
         alignItems="flex-start"
       >
-        <Grid item xs={8}>
-          <AppBar
-            style={{
-              backgroundColor: "#00D54B",
-              width: "%40",
-              maxWidth: "300",
-              borderRadius: 10,
-            }}
-            position="static"
-            color="default"
-          >
-            <StyledTabs
-              value={value}
-              onChange={handleChange}
-              variant="fullWidth"
-              scrollButtons="on"
-              indicatorColor="primary"
-              textColor="primary"
-              aria-label="scrollable force tabs example"
-            >
-              <StyledTab
-                label={
-                  <div>
-                    <FaceIcon
-                      style={{ verticalAlign: "middle", marginRight: 4 }}
-                    />{" "}
-                    Avatar
-                  </div>
-                }
-                {...a11yProps(0)}
-              />
-              <StyledTab
-                label={
-                  <div>
-                    <AccessibilityNewIcon
-                      style={{ verticalAlign: "middle", marginRight: 4 }}
-                    />{" "}
-                    All items
-                  </div>
-                }
-                {...a11yProps(1)}
-              />
-            </StyledTabs>
-          </AppBar>
-        </Grid>
       </Grid>
     );
   };
@@ -827,290 +711,7 @@ const Profile = (props) => {
         justify="space-around"
         alignItems="flex-start"
       >
-        <Grid item xs={8}>
-          {/* <Paper variant="outlined" className={classes.paper}> */}
-          <Carousel
-            //enableSwipe={false}
-            renderArrow={({ type, onClick, isEdge }) => {
-              const pointer =
-                type === consts.PREV ? (
-                  <KeyboardArrowLeftRoundedIcon
-                    style={{
-                      fontSize: 50,
-                      color: isEdge ? "#343434" : "#00D54B",
-                    }}
-                  />
-                ) : (
-                  <KeyboardArrowRightRoundedIcon
-                    style={{
-                      fontSize: 50,
-                      color: isEdge ? "#343434" : "#00D54B",
-                    }}
-                  />
-                );
-              return (
-                <Button onClick={onClick} disabled={isEdge}>
-                  {pointer}
-                </Button>
-              );
-            }}
-            enableMouseSwipe={false}
-            showArrows={!isThirdPerson ? true : false}
-            enableSwipe={!isThirdPerson ? true : false}
-            pagination={false}
-            initialActiveIndex={
-              heads.findIndex((item) => profileData.head === item.tokenId) !==
-              -1
-                ? heads.findIndex((item) => profileData.head === item.tokenId) +
-                  1
-                : 0
-            }
-            onChange={(currentItem, pageIndex) => {
-              setSelectedHeadIndex(pageIndex - 1);
-            }}
-          >
-            <Avatar
-              style={{width: 70, height: 70}}
-              variant="square"
-              alt="empty"
-              src="https://ipfs.io/ipfs/QmNmqHvvhjcoUNZcffdKpASf3cPmRJkyzcixk7zvQPGHtz"
-              className={classes.large}
-              key="gorkem"
-            />
-            {heads.map((item) => (
-              <Button style={{padding:0}}
-              onClick={() => {
-                window.location.href = "/item/" + item.id;
-              }}>
-              <Avatar
-                style={{width: 70, height: 70}}
-                variant="square"
-                alt={item.name}
-                src={"https://ipfs.io/ipfs/"+item.cid}
-                className={classes.large}
-                key={item.cid}
-              />
-              </Button>
-            ))}
-          </Carousel>
-          {/* </Paper> */}
-          {/* <Paper variant="outlined" className={classes.paper}> */}
-          <Carousel
-            //enableSwipe={false}
-            renderArrow={({ type, onClick, isEdge }) => {
-              const pointer =
-                type === consts.PREV ? (
-                  <KeyboardArrowLeftRoundedIcon
-                    style={{
-                      fontSize: 50,
-                      color: isEdge ? "#343434" : "#00D54B",
-                    }}
-                  />
-                ) : (
-                  <KeyboardArrowRightRoundedIcon
-                    style={{
-                      fontSize: 50,
-                      color: isEdge ? "#343434" : "#00D54B",
-                    }}
-                  />
-                );
-              return (
-                <Button onClick={onClick} disabled={isEdge}>
-                  {pointer}
-                </Button>
-              );
-            }}
-            enableMouseSwipe={false}
-            showArrows={!isThirdPerson ? true : false}
-            enableSwipe={!isThirdPerson ? true : false}
-            pagination={false}
-            initialActiveIndex={
-              middles.findIndex(
-                (item) => profileData.middle == item.tokenId
-              ) !== -1
-                ? middles.findIndex(
-                    (item) => profileData.middle == item.tokenId
-                  ) + 1
-                : 0
-            }
-            onChange={(currentItem, pageIndex) => {
-              setSelectedMiddleIndex(pageIndex - 1);
-            }}
-          >
-            <Avatar
-              style={{width: 130, height: 150}}
-              variant="square"
-              alt="empty"
-              src="https://ipfs.io/ipfs/QmR2LR7y2kXEeG3sgUq7jNpWM61XbVJB1N5scjjRj5Wqfr"
-              className={classes.large}
-              key="gorkem 2"
-            />
-            {middles.map((item) => (
-              <Button style={{padding:0}}
-              onClick={() => {
-                window.location.href = "/item/" + item.id;
-              }}>
-              <Avatar
-                style={{width: 130, height: 150}}
-                variant="square"
-                alt={item.name}
-                src={"https://ipfs.io/ipfs/"+item.cid}
-                className={classes.large}
-                key={item.cid}
-              />
-              </Button>
-            ))}
-          </Carousel>
-          {/* </Paper> */}
-          {/* <Paper variant="outlined" className={classes.paper}> */}
-          <Carousel
-            //enableSwipe={false}
-            renderArrow={({ type, onClick, isEdge }) => {
-              const pointer =
-                type === consts.PREV ? (
-                  <KeyboardArrowLeftRoundedIcon
-                    style={{
-                      fontSize: 50,
-                      color: isEdge ? "#343434" : "#00D54B",
-                    }}
-                  />
-                ) : (
-                  <KeyboardArrowRightRoundedIcon
-                    style={{
-                      fontSize: 50,
-                      color: isEdge ? "#343434" : "#00D54B",
-                    }}
-                  />
-                );
-              return (
-                <Button onClick={onClick} disabled={isEdge}>
-                  {pointer}
-                </Button>
-              );
-            }}
-            enableMouseSwipe={false}
-            showArrows={!isThirdPerson ? true : false}
-            enableSwipe={!isThirdPerson ? true : false}
-            pagination={false}
-            initialActiveIndex={
-              bottoms.findIndex(
-                (item) => profileData.bottom == item.tokenId
-              ) !== -1
-                ? bottoms.findIndex(
-                    (item) => profileData.bottom == item.tokenId
-                  ) + 1
-                : 0
-            }
-            onChange={(currentItem, pageIndex) => {
-              setSelectedBottomIndex(pageIndex - 1);
-            }}
-          >
-            
-            <Avatar
-              style={{width: 250, height: 200}}
-              variant="square"
-              alt="empty"
-              src="https://ipfs.io/ipfs/QmRwmAM9rdFm8v9wzajE9jhW2jwQuDeHTMERotWupwzpUP"
-              className={classes.large}
-              key="gorkem 3"
-            />
-              
-            {bottoms.map((item) => (
-              <Button style={{padding:0}}
-              onClick={() => {
-                window.location.href = "/item/" + item.id;
-              }}>
-              <Avatar
-                style={{width: 250, height: 200}}
-                variant="square"
-                alt={item.name}
-                src={"https://ipfs.io/ipfs/"+item.cid}
-                className={classes.large}
-                key={item.cid}
-              />
-              </Button>
-            ))}
-          </Carousel>
-          {/* </Paper> */}
-          {!isThirdPerson && (
 
-            <>
-            <Button
-              variant="contained"
-              className={classes.myButton}
-              style={{ float: "center", marginTop: 20 }}
-              onClick={async () => {
-                // console.log(selectedHeadIndex);
-                // console.log(selectedMiddleIndex);
-                // console.log(selectedBottomIndex);
-
-                // console.log("---------");
-
-                // console.log(
-                //   selectedHeadIndex === -1 ? 0 : heads[selectedHeadIndex].tokenId
-                // );
-                // console.log(
-                //   selectedMiddleIndex === -1
-                //     ? 0
-                //     : middles[selectedMiddleIndex].tokenId
-                // );
-                // console.log(
-                //   selectedBottomIndex === -1
-                //     ? 0
-                //     : bottoms[selectedBottomIndex].tokenId
-                // );
-
-                var nft_contract_interface = new window.web3.eth.Contract(
-                  NftContract.abi,
-                  addresses.NFT_CONTRACTS_ADDRESS
-                );
-                let myAddress = await window.ethereum.selectedAddress;
-                nft_contract_interface.methods
-                  .wearItems(
-                    selectedHeadIndex === -1
-                      ? 0
-                      : heads[selectedHeadIndex].tokenId,
-                    selectedMiddleIndex === -1
-                      ? 0
-                      : middles[selectedMiddleIndex].tokenId,
-                    selectedBottomIndex === -1
-                      ? 0
-                      : bottoms[selectedBottomIndex].tokenId
-                  )
-                  .send({ from: myAddress, gas: 500000 })
-                  .on("transactionHash", function (hash) {
-                    console.log(hash);
-                   // setButtonTrigger(!buttonTrigger);
-                  })
-                  .on("confirmation", function (confirmationNumber, receipt) {
-                    console.log(confirmationNumber, receipt);
-                   // setButtonTrigger(!buttonTrigger);
-                  })
-                  .on("receipt", function (receipt) {
-                    // receipt example
-                    console.log(receipt);
-                    window.location.reload();
-                   // setButtonTrigger(!buttonTrigger);
-                  })
-                  .on("error", async function (error, receipt) {
-                    console.log(error, receipt);
-                    var error_message = await getRevertReason(receipt.transactionHash, setSnackbarText, setSnackbarController);
-                   // setButtonTrigger(!buttonTrigger);
-                  });
-              }}
-            >
-              Save
-            </Button>
-            {/* <div>
-            <Button
-              className={classes.myButton}
-              style={{ float: "center", marginTop: 20 }}>
-              Add to the Avatars Page!
-            </Button>
-            </div> */}
-            </>
-          )}
-        </Grid>
       </Grid>
     );
   };

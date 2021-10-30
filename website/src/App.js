@@ -4,8 +4,7 @@ import { RecoilRoot } from "recoil";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import MarketPlace from "./containers/marketPlace/marketPlace";
 import Profile from "./containers/profile/profile";
-import ItemPage from "./containers/itemPage/itemPage";
-import AvatarPage from "./containers/avatarPage/avatarPage";
+import ItemsPage from "./containers/items/items";
 import NotFoundPage from "./containers/notFoundPage/notFoundPage";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Navbar from "./components/navbar/navbar";
@@ -78,10 +77,8 @@ const App = () => {
           <Switch>
             <Route exact path="/" component={MarketPlace} />
             <Route  path="/marketplace" component={MarketPlace} />
-            <Route  path="/allItems" component={MarketPlace} />
             <Route path="/profile/:address" component={Profile} />
-            <Route path="/item/:id" component={ItemPage} />
-            <Route path="/avatars" component={AvatarPage} />
+            <Route path="/items" component={ItemsPage} />
             <Route  path="/notFound" component={NotFoundPage} />
             <Route component={NotFoundPage} />
           </Switch>

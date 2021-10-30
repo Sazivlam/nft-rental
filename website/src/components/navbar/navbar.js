@@ -212,7 +212,7 @@ const Navbar = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem onClick={() => {
-                window.location.href = "/avatars";
+                window.location.href = "/items";
               }}>
               <SupervisedUserCircleIcon
                 style={{
@@ -221,7 +221,7 @@ const Navbar = () => {
                   fontSize: 20,
                 }}
               />
-              Avatars
+              Items
       </MenuItem>
       <MenuItem onClick={() => {
                 window.location.href = "/marketplace";
@@ -233,7 +233,7 @@ const Navbar = () => {
                   fontSize: 20,
                 }}
               />
-              All items{/*Marketplace */}
+              All items
       </MenuItem>
       <MenuItem >
       {window.ethereum && !window.ethereum.selectedAddress ? (
@@ -323,7 +323,7 @@ const Navbar = () => {
             <Button
               color="inherit"
               onClick={() => {
-                window.location.href = "/avatars";
+                window.location.href = "/items";
               }}
             >
               <WorkIcon

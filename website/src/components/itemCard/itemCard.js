@@ -27,11 +27,20 @@ const useStyles = makeStyles({
     borderRadius: 8,
     color: "#f1ffe3",
     maxHeight: 555,
+    // "&:hover": {
+    //   boxShadow:
+    //     "0 1px 3px rgba(255,255,255,0.12), 0 1px 3px rgba(255,255,255,0.24)",
+    //   transition: "all 0.3s cubic-bezier(.25,.8,.25,1)",
+    // },
   },
   media: {
     height: 220,
     width: "100%",
     borderRadius: 5,
+    // transition: "transform 0.15s ease-in-out",
+    // "&:hover": {
+    //   transform: "scale3d(1.05, 1.05, 1)",
+    // },
   },
   nftInfoContainer: {
     marginTop: 10,
@@ -47,11 +56,18 @@ const useStyles = makeStyles({
     marginBottom: 20
   },
   rentButton: {
+    // position: "relative",
+    // justifyContent: 'center',
+
     color: "#FFF",
     backgroundColor: "#080808",
     height: 35,
     width: "90%",
     position: "relative",
+    // top: 7,
+    // marginLeft: 120,
+    // marginRight: 10,
+    // marginBottom: 12,
     borderRadius: 15,
     border: "4px solid",
     borderColor: "#FFFFFF",
@@ -226,8 +242,9 @@ const MarketCard = ({
             </div>
           </Grid>
           <Grid container className={classes.rentButtonContainer}>
+
             <Button
-              size="small"
+              size="big"
               className={classes.rentButton}
               onClick={() => {
                 isProfile
@@ -235,7 +252,7 @@ const MarketCard = ({
                   : (window.location.href = "profile/" + owner);
               }}
             >
-              Rent
+              Return
             </Button>
 
           </Grid>

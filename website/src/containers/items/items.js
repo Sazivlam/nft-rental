@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Typography, Button } from "@material-ui/core";
-import MarketTab from "../../components/marketCard/marketTab";
+import ItemTab from "../../components/itemCard/itemTab";
 import Web3 from "web3";
 import * as fs from "fs";
 
@@ -19,7 +19,7 @@ import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 
 // const username_abi = JSON.parse(contractJson);
 
-const MarketPlace = () => {
+const Items = () => {
   const [address, setAddress] = React.useState();
 
   const [data, setData] = useRecoilState(allItems);
@@ -99,11 +99,11 @@ const MarketPlace = () => {
   return (
     <Container maxWidth="md">
       <Typography variant="h4" style={{ marginBottom: 20, marginTop: 30 }}>
-        Marketplace
+        My items
       </Typography>
       {/* {address && <> {address}</>} */}
 
-      <MarketTab style={{ marginTop: 10 }} />
+      <ItemTab style={{ marginTop: 10 }} />
       {/* <div>
         {data.map((item) => {
           //console.log("item", item);
@@ -116,4 +116,4 @@ const MarketPlace = () => {
   );
 };
 
-export default MarketPlace;
+export default Items;

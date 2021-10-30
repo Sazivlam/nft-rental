@@ -48,7 +48,7 @@ const MarketCardList = (props) => {
   return (
     <GridList
       spacing={15}
-      cellHeight={400}
+      cellHeight={470}
       cols={getGridListCols()}
       className={classes.gridList}
     >
@@ -64,10 +64,12 @@ const MarketCardList = (props) => {
         return (
           <GridListTile key={index}>
             <MarketCard
-              name={cardItem.name}
+              name={"AK-47 | Case Hardened"}
+              // name={cardItem.name}
               frequency={cardItem.rarity}
               owner={cardItem.owner}
-              imgUrl={"https://ipfs.io/ipfs/"+cardItem.cid}
+              imgUrl={"images/ak47_1.png"}
+              // imgUrl={"https://ipfs.io/ipfs/"+cardItem.cid}
               price={cardItem.sellPrice}
               auctionPrice={cardItem.maxBid}
               type={cardItem.clothType}

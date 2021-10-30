@@ -1,7 +1,7 @@
 import React from "react";
 
 import { makeStyles, GridList, GridListTile } from "@material-ui/core";
-import AvatarCard from "./avatarCard";
+import ItemCard from "./itemCard";
 
 import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 
@@ -22,9 +22,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AvatarCardList = (props) => {
+const ItemCardList = (props) => {
   const classes = useStyles();
-  // console.log(props.AvatarCards);
+  // console.log(props.marketCards);
 
   const getGridListCols = () => {
     if (isWidthUp("xl", props.width)) {
@@ -48,11 +48,12 @@ const AvatarCardList = (props) => {
   return (
     <GridList
       spacing={15}
-      cellHeight={'100% !important'}
+      cellHeight={470}
       cols={getGridListCols()}
       className={classes.gridList}
     >
-      {props.avatarCards.map((cardItem, index) => {
+
+      {props.itemCards.map((cardItem, index) => {
         // console.log(
         //   cardItem.name,
         //   cardItem.rarity,
@@ -63,23 +64,20 @@ const AvatarCardList = (props) => {
         // );
         return (
           <GridListTile key={index}>
-            <AvatarCard
-                headImg = {cardItem.headImg}
-                middleImg = {cardItem.middleImg}
-                bottomImg = {cardItem.bottomImg}
-                username = {cardItem.username}
-                address = {cardItem.address}
+            <ItemCard
+              name={"AK-47 | Case Hardened"}
               // name={cardItem.name}
-              // frequency={cardItem.rarity}
-              // owner={cardItem.owner}
+              frequency={cardItem.rarity}
+              owner={cardItem.owner}
+              imgUrl={"images/ak47_1.png"}
               // imgUrl={"https://ipfs.io/ipfs/"+cardItem.cid}
-              // price={cardItem.sellPrice}
-              // auctionPrice={cardItem.maxBid}
-              // type={cardItem.clothType}
-              // isBiddable={cardItem.isBiddable}/
-              // isOnSale={cardItem.isOnSale}
-              // id={cardItem.id}
-              // isProfile={props.isProfile}
+              price={cardItem.sellPrice}
+              auctionPrice={cardItem.maxBid}
+              type={cardItem.clothType}
+              isBiddable={cardItem.isBiddable}
+              isOnSale={cardItem.isOnSale}
+              id={cardItem.id}
+              isProfile={props.isProfile}
             />
           </GridListTile>
         );
@@ -113,4 +111,4 @@ const AvatarCardList = (props) => {
 </GridList>; */
 }
 
-export default withWidth()(AvatarCardList);
+export default withWidth()(ItemCardList);
