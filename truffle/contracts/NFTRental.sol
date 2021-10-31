@@ -1,11 +1,11 @@
-pragma solidity ^0.6.0;
+pragma solidity ^0.5.12;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.0.0-beta.0/contracts/token/ERC721/ERC721Full.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.0.0-beta.0/contracts/drafts/Counters.sol";
+import "../dependencies/ERC721Full.sol";
+// import "@openzeppelin/contracts/token/ERC721/ERC721Full.sol";
+// import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.0.0-beta.0/contracts/token/ERC721/ERC721Full.sol";
 
 contract NFTRental is ERC721Full {
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
+    uint private _tokenIds = 0;
 
     struct nftData {
         string name;
@@ -228,8 +228,8 @@ contract NFTRental is ERC721Full {
     }
         
     function mint(string memory _name, string memory _imageUrl) public returns (uint256) {
-        _tokenIds.increment();
-        uint256 newItemId = _tokenIds.current();
+        _tokenIds++;
+        uint256 newItemId = _tokenIds;
         require(exists[newItemId] == false, "Item id should be unique, for you to mint it");
         require(this.totalSupply() < maxSupply, "You cannot mint any more item since you already reached the maximum supply");
         require(msg.sender == owner, "Only owner of the contract can mint");
