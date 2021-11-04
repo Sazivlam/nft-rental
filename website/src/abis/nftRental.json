@@ -2,10 +2,8 @@
   "abi": [
     {
       "inputs": [],
-      "payable": false,
       "stateMutability": "nonpayable",
-      "type": "constructor",
-      "signature": "constructor"
+      "type": "constructor"
     },
     {
       "anonymous": false,
@@ -30,8 +28,7 @@
         }
       ],
       "name": "Approval",
-      "type": "event",
-      "signature": "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -56,8 +53,26 @@
         }
       ],
       "name": "ApprovalForAll",
-      "type": "event",
-      "signature": "0x17307eab39ab6107e8899845ad3d59bd9653f200f220920489ca2b5937696c31"
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -82,8 +97,7 @@
         }
       ],
       "name": "Transfer",
-      "type": "event",
-      "signature": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -92,6 +106,30 @@
           "indexed": true,
           "internalType": "uint256",
           "name": "id",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint8",
+          "name": "maxDurationInDays",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "dailyPrice",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "collateral",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "rentEndTime",
           "type": "uint256"
         },
         {
@@ -120,11 +158,23 @@
         }
       ],
       "name": "nftTransaction",
-      "type": "event",
-      "signature": "0xe08c5ec3e4eec30f43f959991338b87e61cc24376dfe3fc0e156daee7a4f7cf8"
+      "type": "event"
     },
     {
-      "constant": false,
+      "inputs": [],
+      "name": "MAX_NFT_SUPPLY",
+      "outputs": [
+        {
+          "internalType": "uint16",
+          "name": "",
+          "type": "uint16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -139,13 +189,10 @@
       ],
       "name": "approve",
       "outputs": [],
-      "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x095ea7b3"
+      "type": "function"
     },
     {
-      "constant": true,
       "inputs": [
         {
           "internalType": "address",
@@ -161,13 +208,11 @@
           "type": "uint256"
         }
       ],
-      "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0x70a08231"
+      "constant": true
     },
     {
-      "constant": true,
       "inputs": [
         {
           "internalType": "uint256",
@@ -183,13 +228,11 @@
           "type": "address"
         }
       ],
-      "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0x081812fc"
+      "constant": true
     },
     {
-      "constant": true,
       "inputs": [
         {
           "internalType": "address",
@@ -210,13 +253,11 @@
           "type": "bool"
         }
       ],
-      "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0xe985e9c5"
+      "constant": true
     },
     {
-      "constant": true,
       "inputs": [],
       "name": "maxSupply",
       "outputs": [
@@ -226,13 +267,11 @@
           "type": "uint256"
         }
       ],
-      "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0xd5abeb01"
+      "constant": true
     },
     {
-      "constant": true,
       "inputs": [],
       "name": "name",
       "outputs": [
@@ -242,13 +281,11 @@
           "type": "string"
         }
       ],
-      "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0x06fdde03"
+      "constant": true
     },
     {
-      "constant": true,
       "inputs": [
         {
           "internalType": "uint256",
@@ -264,14 +301,14 @@
           "type": "string"
         },
         {
-          "internalType": "uint256",
-          "name": "id",
-          "type": "uint256"
-        },
-        {
           "internalType": "string",
           "name": "imageUrl",
           "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
         },
         {
           "internalType": "bool",
@@ -279,18 +316,13 @@
           "type": "bool"
         },
         {
-          "internalType": "bool",
-          "name": "isOnRent",
-          "type": "bool"
+          "internalType": "address payable",
+          "name": "lender",
+          "type": "address"
         },
         {
           "internalType": "uint256",
-          "name": "sellPrice",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "rentPrice",
+          "name": "rentSeconds",
           "type": "uint256"
         },
         {
@@ -300,22 +332,20 @@
         },
         {
           "internalType": "uint256",
-          "name": "rentSeconds",
+          "name": "dailyPrice",
           "type": "uint256"
         },
         {
-          "internalType": "address",
-          "name": "actualOwner",
-          "type": "address"
+          "internalType": "uint256",
+          "name": "collateral",
+          "type": "uint256"
         }
       ],
-      "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0x265aa621"
+      "constant": true
     },
     {
-      "constant": true,
       "inputs": [],
       "name": "owner",
       "outputs": [
@@ -325,13 +355,11 @@
           "type": "address"
         }
       ],
-      "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0x8da5cb5b"
+      "constant": true
     },
     {
-      "constant": true,
       "inputs": [
         {
           "internalType": "uint256",
@@ -347,13 +375,32 @@
           "type": "address"
         }
       ],
-      "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0x6352211e"
+      "constant": true
     },
     {
-      "constant": false,
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "rentFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -373,13 +420,10 @@
       ],
       "name": "safeTransferFrom",
       "outputs": [],
-      "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x42842e0e"
+      "type": "function"
     },
     {
-      "constant": false,
       "inputs": [
         {
           "internalType": "address",
@@ -404,17 +448,14 @@
       ],
       "name": "safeTransferFrom",
       "outputs": [],
-      "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0xb88d4fde"
+      "type": "function"
     },
     {
-      "constant": false,
       "inputs": [
         {
           "internalType": "address",
-          "name": "to",
+          "name": "operator",
           "type": "address"
         },
         {
@@ -425,13 +466,10 @@
       ],
       "name": "setApprovalForAll",
       "outputs": [],
-      "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0xa22cb465"
+      "type": "function"
     },
     {
-      "constant": true,
       "inputs": [
         {
           "internalType": "bytes4",
@@ -447,13 +485,11 @@
           "type": "bool"
         }
       ],
-      "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0x01ffc9a7"
+      "constant": true
     },
     {
-      "constant": true,
       "inputs": [],
       "name": "symbol",
       "outputs": [
@@ -463,13 +499,11 @@
           "type": "string"
         }
       ],
-      "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0x95d89b41"
+      "constant": true
     },
     {
-      "constant": true,
       "inputs": [
         {
           "internalType": "uint256",
@@ -485,13 +519,11 @@
           "type": "uint256"
         }
       ],
-      "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0x4f6ccce7"
+      "constant": true
     },
     {
-      "constant": true,
       "inputs": [
         {
           "internalType": "address",
@@ -512,13 +544,11 @@
           "type": "uint256"
         }
       ],
-      "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0x2f745c59"
+      "constant": true
     },
     {
-      "constant": true,
       "inputs": [
         {
           "internalType": "uint256",
@@ -534,13 +564,11 @@
           "type": "string"
         }
       ],
-      "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0xc87b56dd"
+      "constant": true
     },
     {
-      "constant": true,
       "inputs": [],
       "name": "totalSupply",
       "outputs": [
@@ -550,13 +578,11 @@
           "type": "uint256"
         }
       ],
-      "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0x18160ddd"
+      "constant": true
     },
     {
-      "constant": false,
       "inputs": [
         {
           "internalType": "address",
@@ -576,13 +602,23 @@
       ],
       "name": "transferFrom",
       "outputs": [],
-      "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x23b872dd"
+      "type": "function"
     },
     {
-      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -603,13 +639,24 @@
           "type": "uint256"
         }
       ],
-      "payable": false,
       "stateMutability": "view",
       "type": "function",
-      "signature": "0xa87430ba"
+      "constant": true
     },
     {
-      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_rentFee",
+          "type": "uint256"
+        }
+      ],
+      "name": "setRentFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "string",
@@ -619,35 +666,10 @@
       ],
       "name": "setUsername",
       "outputs": [],
-      "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0xed59313a"
+      "type": "function"
     },
     {
-      "constant": true,
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_owner",
-          "type": "address"
-        }
-      ],
-      "name": "tokensOfOwner",
-      "outputs": [
-        {
-          "internalType": "uint256[]",
-          "name": "",
-          "type": "uint256[]"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function",
-      "signature": "0x8462151c"
-    },
-    {
-      "constant": false,
       "inputs": [
         {
           "internalType": "uint256",
@@ -655,20 +677,27 @@
           "type": "uint256"
         },
         {
+          "internalType": "uint8",
+          "name": "_maxDurationInDays",
+          "type": "uint8"
+        },
+        {
           "internalType": "uint256",
-          "name": "_sellPrice",
+          "name": "_dailyPrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_collateral",
           "type": "uint256"
         }
       ],
       "name": "putOnSale",
       "outputs": [],
-      "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x36f7992b"
+      "type": "function"
     },
     {
-      "constant": false,
       "inputs": [
         {
           "internalType": "uint256",
@@ -678,13 +707,10 @@
       ],
       "name": "cancelSale",
       "outputs": [],
-      "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0xbd94b005"
+      "type": "function"
     },
     {
-      "constant": false,
       "inputs": [
         {
           "internalType": "uint256",
@@ -694,54 +720,11 @@
       ],
       "name": "buyFromSale",
       "outputs": [],
-      "payable": true,
       "stateMutability": "payable",
       "type": "function",
-      "signature": "0xfc84afb4"
+      "payable": true
     },
     {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_tokenId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_rentPrice",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_days",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_hours",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_minutes",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_seconds",
-          "type": "uint256"
-        }
-      ],
-      "name": "putOnRent",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0xd727d40d"
-    },
-    {
-      "constant": false,
       "inputs": [
         {
           "internalType": "uint256",
@@ -749,15 +732,12 @@
           "type": "uint256"
         }
       ],
-      "name": "cancelRent",
+      "name": "returnNFT",
       "outputs": [],
-      "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x857529f1"
+      "type": "function"
     },
     {
-      "constant": false,
       "inputs": [
         {
           "internalType": "uint256",
@@ -765,47 +745,12 @@
           "type": "uint256"
         }
       ],
-      "name": "rent",
+      "name": "claimCollateral",
       "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function",
-      "signature": "0x7456be7d"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_tokenId",
-          "type": "uint256"
-        }
-      ],
-      "name": "returnRented",
-      "outputs": [],
-      "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x475970d3"
+      "type": "function"
     },
     {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "withdrawMoney",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x54876921"
-    },
-    {
-      "constant": false,
       "inputs": [
         {
           "internalType": "string",
@@ -818,7 +763,7 @@
           "type": "string"
         }
       ],
-      "name": "mint",
+      "name": "mintNFT",
       "outputs": [
         {
           "internalType": "uint256",
@@ -826,31 +771,8 @@
           "type": "uint256"
         }
       ],
-      "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x8aa0fdad"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "from",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "nft",
-          "type": "uint256"
-        }
-      ],
-      "name": "transfer",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0xa9059cbb"
+      "type": "function"
     }
   ]
 }
