@@ -112,10 +112,6 @@ const MarketTab = () => {
   const bottoms = useRecoilValue(getBottoms);
   const allItemsFiltered = useRecoilValue(getAllItemsFiltered);
 
-  const [marketIsBiddable, setMarketIsBiddable] = useRecoilState(isBiddable);
-  const [marketIsOnSale, setMarketIsOnSale] = useRecoilState(isOnSale);
-  const [marketRariryLevel, setMarketRariryLevel] = useRecoilState(rarityLevel);
-
   // console.log("allItems", items);
   // console.log("heads", heads);
   // console.log("middles", middles);
@@ -126,57 +122,6 @@ const MarketTab = () => {
   };
   return (
     <div className={classes.root}>
-      <div style={{ marginTop: 20, marginLeft: 45, marginRight: 60 }}>
-        <Grid
-          container
-          direction="row"
-          justify="space-between"
-          alignItems="flex-start"
-        >
-          <Grid item xs={10}>
-            <Grid
-              container
-              direction="column"
-              justify="space-between"
-              alignItems="flex-start"
-            >
-              <Grid item>Filter By:</Grid>
-              <Grid item>
-                <FormGroup row style={{ marginLeft: -16 }}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={marketIsBiddable}
-                        onChange={() => {
-                          setMarketIsBiddable(!marketIsBiddable);
-                        }}
-                        name="Renting"
-                      />
-                    }
-                    label="Renting"
-                    labelPlacement="start"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={marketIsOnSale}
-                        onChange={() => {
-                          setMarketIsOnSale(!marketIsOnSale);
-                        }}
-                        name="Selling"
-                      />
-                    }
-                    label="Selling"
-                    labelPlacement="start"
-                  />
-                </FormGroup>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={2}>
-          </Grid>
-        </Grid>
-      </div>
       {allItemsFiltered.length == 0 ? (
         <div>No Items Found</div>
       ) : (

@@ -64,12 +64,10 @@ const MarketCardList = (props) => {
         return (
           <GridListTile key={index}>
             <MarketCard
-              name={"AK-47 | Case Hardened"}
-              // name={cardItem.name}
+              name={cardItem.name}
               frequency={cardItem.rarity}
               owner={cardItem.owner}
-              imgUrl={"images/ak47_1.png"}
-              // imgUrl={"https://ipfs.io/ipfs/"+cardItem.cid}
+              imageUrl={"images/" + cardItem.imageUrl}
               price={cardItem.sellPrice}
               auctionPrice={cardItem.maxBid}
               type={cardItem.clothType}

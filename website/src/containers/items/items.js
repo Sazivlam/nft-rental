@@ -4,7 +4,7 @@ import ItemTab from "../../components/itemCard/itemTab";
 import Web3 from "web3";
 import * as fs from "fs";
 
-import NftContract from "../../abis/nft.json";
+import NftRental from "../../abis/nftRental.json";
 
 
 import addresses from "../../constants/contracts";
@@ -44,7 +44,7 @@ const Items = () => {
     setAddress(myAddress);
 
     var nft_contract_interface = new window.web3.eth.Contract(
-      NftContract.abi,
+      NftRental.abi,
       addresses.NFT_CONTRACTS_ADDRESS
     );
 

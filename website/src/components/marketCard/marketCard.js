@@ -16,7 +16,7 @@ import LocalOfferSharpIcon from "@material-ui/icons/LocalOfferSharp";
 import { Grid, Container, Paper } from "@material-ui/core";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 
-import NftContract from "../../abis/nft.json";
+import NftRental from "../../abis/nftRental.json";
 import addresses from "../../constants/contracts";
 import { getUsername } from "../../utils/getUsernameFromAddress";
 
@@ -97,7 +97,7 @@ const MarketCard = ({
   name,
   frequency,
   owner,
-  imgUrl,
+  imageUrl,
   price,
   auctionPrice,
   type,
@@ -115,7 +115,7 @@ const MarketCard = ({
 
   React.useEffect(async () => {
     var nft_contract_interface = new window.web3.eth.Contract(
-      NftContract.abi,
+      NftRental.abi,
       addresses.NFT_CONTRACTS_ADDRESS
     );
 
@@ -131,7 +131,7 @@ const MarketCard = ({
           <Grid container>
             <CardMedia
               className={classes.media}
-              image={imgUrl}
+              image={imageUrl}
               title={name}
             />
           </Grid>
@@ -141,7 +141,7 @@ const MarketCard = ({
                 {name}
               </Typography>
             </Grid>
-            <Grid item style={{ alignSelf: "flex-start", marginLeft: 25 }}>
+            {/* <Grid item style={{ alignSelf: "flex-start", marginLeft: 25 }}>
               <div style={{ textAlign: "left" }}>
                 <div className={classes.nftInfoContainer}>
                   <LocalOfferSharpIcon
@@ -196,9 +196,9 @@ const MarketCard = ({
                   </MyTooltip>
                 </div>
               </div>
-            </Grid>
+            </Grid> */}
           </Grid>
-          <Grid container style={{ marginTop: 10, marginBottom: 5 }}>
+          {/* <Grid container style={{ marginTop: 10, marginBottom: 5 }}>
             <div className={classes.nftOwnerContainer}>
               <AccountCircleIcon
                 style={{
@@ -224,8 +224,8 @@ const MarketCard = ({
                 {usernameToBeShown}
               </Button>
             </div>
-          </Grid>
-          <Grid container className={classes.rentButtonContainer}>
+          </Grid> */}
+          {/* <Grid container className={classes.rentButtonContainer}>
             <Button
               size="small"
               className={classes.rentButton}
@@ -238,7 +238,7 @@ const MarketCard = ({
               Rent
             </Button>
 
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
     </Card>

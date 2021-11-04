@@ -16,7 +16,7 @@ import LocalOfferSharpIcon from "@material-ui/icons/LocalOfferSharp";
 import { Grid, Container, Paper } from "@material-ui/core";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 
-import NftContract from "../../abis/nft.json";
+import NftRental from "../../abis/nftRental.json";
 import addresses from "../../constants/contracts";
 import { getUsername } from "../../utils/getUsernameFromAddress";
 
@@ -131,7 +131,7 @@ const MarketCard = ({
 
   React.useEffect(async () => {
     var nft_contract_interface = new window.web3.eth.Contract(
-      NftContract.abi,
+      NftRental.abi,
       addresses.NFT_CONTRACTS_ADDRESS
     );
 

@@ -67,7 +67,7 @@ import {
   getAllItemsFiltered,
 } from "../../recoils/selectors";
 
-import NftContract from "../../abis/nft.json";
+import NftRental from "../../abis/nftRental.json";
 import addresses from "../../constants/contracts";
 
 import MarketCardList from "../../components/marketCard/marketCardList";
@@ -288,7 +288,7 @@ const Profile = (props) => {
     setIsThirdPerson(myAddress.toLowerCase() !== profileAddress.toLowerCase());
 
     var nft_contract_interface = new window.web3.eth.Contract(
-      NftContract.abi,
+      NftRental.abi,
       addresses.NFT_CONTRACTS_ADDRESS
     );
 
@@ -440,7 +440,7 @@ const Profile = (props) => {
                 let myAddress = await window.ethereum.selectedAddress;
 
                 var nft_contract_interface = new window.web3.eth.Contract(
-                  NftContract.abi,
+                  NftRental.abi,
                   addresses.NFT_CONTRACTS_ADDRESS
                 );
                 nft_contract_interface.methods
@@ -515,7 +515,7 @@ const Profile = (props) => {
       let myAddress = await window.ethereum.selectedAddress;
 
       var nft_contract_interface = new window.web3.eth.Contract(
-        NftContract.abi,
+        NftRental.abi,
         addresses.NFT_CONTRACTS_ADDRESS
       );
       nft_contract_interface.methods

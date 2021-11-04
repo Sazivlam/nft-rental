@@ -4,7 +4,7 @@ import MarketTab from "../../components/marketCard/marketTab";
 import Web3 from "web3";
 import * as fs from "fs";
 
-import NftContract from "../../abis/nft.json";
+import NftRental from "../../abis/nftRental.json";
 
 
 import addresses from "../../constants/contracts";
@@ -44,14 +44,15 @@ const MarketPlace = () => {
     setAddress(myAddress);
 
     var nft_contract_interface = new window.web3.eth.Contract(
-      NftContract.abi,
+      NftRental.abi,
       addresses.NFT_CONTRACTS_ADDRESS
     );
 
     nft_contract_interface.methods
       .totalSupply()
       .call()
-      .then((totalNftCount) => {
+      .then((totalNftCount) => 
+      {
         let nftIds = [];
         for (var i = 0; i < totalNftCount; i++) {
           nftIds.push(i);
@@ -91,7 +92,8 @@ const MarketPlace = () => {
             setData(values);
           })
           .catch((err) => console.log("err", err));
-      });
+      }
+      );
   }, [window.web3.eth]);
 
   //console.log("data", data);

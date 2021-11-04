@@ -26,7 +26,7 @@ import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 import { getMyUsername } from "../../recoils/selectors";
 import { myUsername, myAddress } from "../../recoils/atoms";
 
-import Nft from "../../abis/nft.json";
+import NftRental from "../../abis/nftRental.json";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -126,7 +126,7 @@ const Navbar = () => {
         let myAddress = await window.ethereum.selectedAddress;
 
         var smart_contract_interface = new window.web3.eth.Contract(
-          Nft.abi,
+          NftRental.abi,
           addresses.NFT_CONTRACTS_ADDRESS
         );
 
@@ -144,22 +144,22 @@ const Navbar = () => {
           });
         setAddress(myAddress);
 
-        smart_contract_interface.methods
-              .users(myAddress)
-              .call()
-              .then(async (data) => {
-                let headImg = "";
-                if (data.head != 0) {
-                  headImg = await smart_contract_interface
-                                  .methods
-                                  .nfts(data.head - 1)
-                                  .call()
-                                  .then((data) => {
-                                    return data.cid
-                                  })
-                }
-                setAvatarHead(headImg);
-              })
+        // smart_contract_interface.methods
+        //       .users(myAddress)
+        //       .call()
+        //       .then(async (data) => {
+        //         let headImg = "";
+        //         if (data.head != 0) {
+        //           headImg = await smart_contract_interface
+        //                           .methods
+        //                           .nfts(data.head - 1)
+        //                           .call()
+        //                           .then((data) => {
+        //                             return data.cid
+        //                           })
+        //         }
+        //         setAvatarHead(headImg);
+        //       })
 
       }
     } catch (err) {
