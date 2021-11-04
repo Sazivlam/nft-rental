@@ -13,3 +13,16 @@ services:
       - /usr/app/node_modules
     ports:
       - "3000:3000"
+  ganache:
+    image: trufflesuite/ganache-cli:latest
+    ports:
+      - "8545:8545"
+    volumes:
+      - ./truffle/ganachedb:/ganachedb     
+    entrypoint:
+      - node
+      - /app/ganache-core.docker.cli.js
+      - --deterministic
+      - --db=/ganachedb
+      - --mnemonic
+      - 'horn hammer original lemon chapter weird gun pond fortune blush cupboard cat'
