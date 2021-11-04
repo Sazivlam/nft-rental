@@ -109,11 +109,11 @@ const MyTooltip = withStyles((theme) => ({
   },
 }))(Tooltip);
 
-const MarketCard = ({
+const ItemCard = ({
   name,
   frequency,
   owner,
-  imgUrl,
+  imageUrl,
   price,
   auctionPrice,
   type,
@@ -147,7 +147,7 @@ const MarketCard = ({
           <Grid container>
             <CardMedia
               className={classes.media}
-              image={imgUrl}
+              image={imageUrl}
               title={name}
             />
           </Grid>
@@ -167,13 +167,13 @@ const MarketCard = ({
                       fontSize: 20,
                     }}
                   />
-                  <MyTooltip title={window.web3.utils.fromWei(price).toString()} arrow>
+                  {/* <MyTooltip title={window.web3.utils.fromWei(price).toString()} arrow>
                     <Typography variant="caption" style={{
                       verticalAlign: "middle"
                     }}>
                       Daily price [ETH]: {isOnSale ? window.web3.utils.fromWei(price.toString()).slice(0, 5) + " Ξ" : "-"}
                     </Typography>
-                  </MyTooltip>
+                  </MyTooltip> */}
                 </div>
               </div>
               <div className={classes.nftInfoContainer}>
@@ -185,13 +185,13 @@ const MarketCard = ({
                       fontSize: 20,
                     }}
                   />
-                  <MyTooltip title={window.web3.utils.fromWei(auctionPrice).toString()} arrow>
+                  {/* <MyTooltip title={window.web3.utils.fromWei(auctionPrice).toString()} arrow>
                     <Typography variant="caption" style={{
                       verticalAlign: "middle"
                     }}>
                       Max duration [days]: {isBiddable ? window.web3.utils.fromWei(auctionPrice.toString()).slice(0, 5) + " Ξ" : "-"}
                     </Typography>
-                  </MyTooltip>
+                  </MyTooltip> */}
                 </div>
               </div>
               <div className={classes.nftInfoContainer}>
@@ -203,18 +203,18 @@ const MarketCard = ({
                       fontSize: 20,
                     }}
                   />
-                  <MyTooltip title={window.web3.utils.fromWei(auctionPrice).toString()} arrow>
+                  {/* <MyTooltip title={window.web3.utils.fromWei(auctionPrice).toString()} arrow>
                     <Typography variant="caption" style={{
                       verticalAlign: "middle"
                     }}>
                       Collateral [ETH]: {isBiddable ? window.web3.utils.fromWei(auctionPrice.toString()).slice(0, 5) + " Ξ" : "-"}
                     </Typography>
-                  </MyTooltip>
+                  </MyTooltip> */}
                 </div>
               </div>
             </Grid>
           </Grid>
-          <Grid container style={{ marginTop: 10, marginBottom: 5 }}>
+          {/* <Grid container style={{ marginTop: 10, marginBottom: 5 }}>
             <div className={classes.nftOwnerContainer}>
               <AccountCircleIcon
                 style={{
@@ -240,7 +240,7 @@ const MarketCard = ({
                 {usernameToBeShown}
               </Button>
             </div>
-          </Grid>
+          </Grid> */}
           <Grid container className={classes.rentButtonContainer}>
 
             <Button
@@ -262,4 +262,4 @@ const MarketCard = ({
   );
 };
 
-export default MarketCard;
+export default ItemCard;
