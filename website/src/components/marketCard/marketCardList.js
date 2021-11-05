@@ -53,6 +53,9 @@ const MarketCardList = (props) => {
       className={classes.gridList}
     >
       {props.marketCards.map((cardItem, index) => {
+        if(cardItem === undefined){
+          return
+        }
         // console.log(
         //   cardItem.name,
         //   cardItem.rarity,
@@ -65,16 +68,14 @@ const MarketCardList = (props) => {
           <GridListTile key={index}>
             <MarketCard
               name={cardItem.name}
-              frequency={cardItem.rarity}
               owner={cardItem.owner}
               imageUrl={"images/" + cardItem.imageUrl}
-              price={cardItem.sellPrice}
-              auctionPrice={cardItem.maxBid}
-              type={cardItem.clothType}
-              isBiddable={cardItem.isBiddable}
-              isOnSale={cardItem.isOnSale}
+              dailyPrice={cardItem.dailyPrice}
+              collateral={cardItem.collateral}
+              rentSeconds={cardItem.rentSeconds}
               id={cardItem.id}
               isProfile={props.isProfile}
+              ownerView={cardItem.ownerView}
             />
           </GridListTile>
         );

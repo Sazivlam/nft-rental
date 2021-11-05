@@ -107,10 +107,10 @@ const MarketTab = () => {
   const [value, setValue] = React.useState(0);
 
   const items = useRecoilValue(allItems);
-  const heads = useRecoilValue(getHeads);
-  const middles = useRecoilValue(getMiddles);
-  const bottoms = useRecoilValue(getBottoms);
-  const allItemsFiltered = useRecoilValue(getAllItemsFiltered);
+  // const heads = useRecoilValue(getHeads);
+  // const middles = useRecoilValue(getMiddles);
+  // const bottoms = useRecoilValue(getBottoms);
+  // const allItemsFiltered = useRecoilValue(getAllItemsFiltered);
 
   // console.log("allItems", items);
   // console.log("heads", heads);
@@ -122,21 +122,12 @@ const MarketTab = () => {
   };
   return (
     <div className={classes.root}>
-      {allItemsFiltered.length == 0 ? (
+      {items.length == 0 ? (
         <div>No Items Found</div>
       ) : (
         <>
           <TabPanel value={value} index={0}>
-            {allItemsFiltered.length ? <MarketCardList marketCards={allItemsFiltered} /> : <>No Items Found</>}
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            {heads.length ? <MarketCardList marketCards={heads} isProfile={false} /> : <>No Items Found</>}
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            {middles.length ? <MarketCardList marketCards={middles} isProfile={false} />: <>No Items Found</>}
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            {bottoms.length ? <MarketCardList marketCards={bottoms} isProfile={false} />: <>No Items Found</>}
+            {items.length ? <MarketCardList marketCards={items} /> : <>No Items Found</>}
           </TabPanel>
         </>
       )}

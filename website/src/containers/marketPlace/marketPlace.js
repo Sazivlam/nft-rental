@@ -24,7 +24,7 @@ const MarketPlace = () => {
 
   const [data, setData] = useRecoilState(allItems);
 
-  if(!window.eth && !window.ethereum){
+  if (!window.eth && !window.ethereum) {
     window.location.href = window.location.origin;
   }
 
@@ -51,8 +51,7 @@ const MarketPlace = () => {
     nft_contract_interface.methods
       .totalSupply()
       .call()
-      .then((totalNftCount) => 
-      {
+      .then((totalNftCount) => {
         let nftIds = [];
         for (var i = 0; i < totalNftCount; i++) {
           nftIds.push(i);
@@ -73,16 +72,28 @@ const MarketPlace = () => {
                       //but need to do promise again
                       //however it makes the code more efficient
 
-                      return nft_contract_interface.methods
-                        .ownerOf(currentTokenId)
-                        .call()
-                        .then((owner) => {
-                          return {
-                            ...currentNftData,
-                            id: currentTokenId - 1,
-                            owner: owner,
-                          };
-                        });
+                      if (currentNftData.isOnSale) {
+                        return nft_contract_interface.methods
+                          .ownerOf(currentTokenId)
+                          .call()
+                          .then((owner) => {
+                            if (owner.toString().toLowerCase() == myAddress.toString().toLowerCase()) {
+                              return {
+                                ...currentNftData,
+                                id: currentTokenId - 1,
+                                owner: owner,
+                                ownerView: true
+                              };
+                            } else {
+                              return {
+                                ...currentNftData,
+                                id: currentTokenId - 1,
+                                owner: owner,
+                                ownerView: false
+                              };
+                            }
+                          });
+                      }
                     });
                 })
             );

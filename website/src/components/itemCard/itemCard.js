@@ -26,7 +26,7 @@ const useStyles = makeStyles({
     maxWidth: 345,
     borderRadius: 8,
     color: "#f1ffe3",
-    maxHeight: 555,
+    maxHeight: "100%",
     // "&:hover": {
     //   boxShadow:
     //     "0 1px 3px rgba(255,255,255,0.12), 0 1px 3px rgba(255,255,255,0.24)",

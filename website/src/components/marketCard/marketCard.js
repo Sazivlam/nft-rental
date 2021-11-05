@@ -26,7 +26,7 @@ const useStyles = makeStyles({
     maxWidth: 345,
     borderRadius: 8,
     color: "#f1ffe3",
-    maxHeight: 555,
+    maxHeight: "100%",
   },
   media: {
     height: 220,
@@ -56,7 +56,22 @@ const useStyles = makeStyles({
     border: "4px solid",
     borderColor: "#FFFFFF",
     "&:hover": {
-      backgroundColor: "#FFF",
+      backgroundColor: "#16B421",
+      borderColor: "#000",
+      color: "#000",
+    },
+  },
+  returnButton: {
+    color: "#FFF",
+    backgroundColor: "#080808",
+    height: 35,
+    width: "90%",
+    position: "relative",
+    borderRadius: 15,
+    border: "4px solid",
+    borderColor: "#FFFFFF",
+    "&:hover": {
+      backgroundColor: "#FF0000",
       borderColor: "#000",
       color: "#000",
     },
@@ -95,16 +110,14 @@ const MyTooltip = withStyles((theme) => ({
 
 const MarketCard = ({
   name,
-  frequency,
   owner,
   imageUrl,
-  price,
-  auctionPrice,
-  type,
-  isBiddable,
-  isOnSale,
+  dailyPrice,
+  collateral,
+  rentSeconds,
   id,
   isProfile,
+  ownerView
 }) => {
   const classes = useStyles();
   // var owner = ;
@@ -112,6 +125,10 @@ const MarketCard = ({
   const [usernameToBeShown, setUsernameToBeShown] = React.useState(
     owner.slice(0, 4) + "..." + owner.slice(owner.length - 2, owner.length)
   );
+
+  const daysFromSeconds = (seconds) => {
+    return seconds / 86400;
+  }
 
   React.useEffect(async () => {
     var nft_contract_interface = new window.web3.eth.Contract(
@@ -151,13 +168,13 @@ const MarketCard = ({
                       fontSize: 20,
                     }}
                   />
-                  {/* <MyTooltip title={window.web3.utils.fromWei(price).toString()} arrow>
+                  <MyTooltip title={window.web3.utils.fromWei(dailyPrice).toString()} arrow>
                     <Typography variant="caption" style={{
                       verticalAlign: "middle"
                     }}>
-                      Daily price [ETH]: {isOnSale ? window.web3.utils.fromWei(price.toString()).slice(0, 5) + " Ξ" : "-"}
+                      Daily price [ETH]: {dailyPrice ? window.web3.utils.fromWei(dailyPrice.toString()) : "-"}
                     </Typography>
-                  </MyTooltip> */}
+                  </MyTooltip>
                 </div>
               </div>
               <div className={classes.nftInfoContainer}>
@@ -169,13 +186,13 @@ const MarketCard = ({
                       fontSize: 20,
                     }}
                   />
-                  {/* <MyTooltip title={window.web3.utils.fromWei(auctionPrice).toString()} arrow>
+                  <MyTooltip title={daysFromSeconds(rentSeconds).toString()} arrow>
                     <Typography variant="caption" style={{
                       verticalAlign: "middle"
                     }}>
-                      Max duration [days]: {isBiddable ? window.web3.utils.fromWei(auctionPrice.toString()).slice(0, 5) + " Ξ" : "-"}
+                      Max duration [days]: {rentSeconds ? daysFromSeconds(rentSeconds).toString() : "-"}
                     </Typography>
-                  </MyTooltip> */}
+                  </MyTooltip>
                 </div>
               </div>
               <div className={classes.nftInfoContainer}>
@@ -187,13 +204,13 @@ const MarketCard = ({
                       fontSize: 20,
                     }}
                   />
-                  {/* <MyTooltip title={window.web3.utils.fromWei(auctionPrice).toString()} arrow>
+                  <MyTooltip title={window.web3.utils.fromWei(collateral).toString()} arrow>
                     <Typography variant="caption" style={{
                       verticalAlign: "middle"
                     }}>
-                      Collateral [ETH]: {isBiddable ? window.web3.utils.fromWei(auctionPrice.toString()).slice(0, 5) + " Ξ" : "-"}
+                      Collateral [ETH]: {collateral ? window.web3.utils.fromWei(collateral.toString()) : "-"}
                     </Typography>
-                  </MyTooltip> */}
+                  </MyTooltip>
                 </div>
               </div>
             </Grid>
@@ -226,17 +243,32 @@ const MarketCard = ({
             </div>
           </Grid>
           <Grid container className={classes.rentButtonContainer}>
-            <Button
-              size="small"
-              className={classes.rentButton}
-              onClick={() => {
-                isProfile
-                  ? (window.location.href = owner)
-                  : (window.location.href = "profile/" + owner);
-              }}
-            >
-              Rent
-            </Button>
+            {ownerView &&
+              <Button
+                size="small"
+                className={classes.returnButton}
+                onClick={() => {
+                  isProfile
+                    ? (window.location.href = owner)
+                    : (window.location.href = "profile/" + owner);
+                }}
+              >
+                Return
+              </Button>
+            }
+            {!ownerView &&
+              <Button
+                size="small"
+                className={classes.rentButton}
+                onClick={() => {
+                  isProfile
+                    ? (window.location.href = owner)
+                    : (window.location.href = "profile/" + owner);
+                }}
+              >
+                Rent
+              </Button>
+            }
 
           </Grid>
         </Grid>

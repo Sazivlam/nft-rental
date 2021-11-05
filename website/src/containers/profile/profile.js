@@ -242,12 +242,6 @@ const Profile = (props) => {
   const [snackbarText, setSnackbarText] = useRecoilState(snackbarTextAtom);
   const [snackbarController, setSnackbarController] = useRecoilState(snackbarControllerAtom);
 
-  const heads = useRecoilValue(getHeads);
-  const middles = useRecoilValue(getMiddles);
-  const bottoms = useRecoilValue(getBottoms);
-  const unFilteredHeads = useRecoilValue(unFilteredGetHeads);
-  const unFilteredMiddles = useRecoilValue(unFilteredGetMiddles);
-  const unFilteredBottoms = useRecoilValue(unFilteredGetBottoms);
 
   if (!window.eth && !window.ethereum) {
     window.location.href = window.location.origin;
@@ -305,89 +299,88 @@ const Profile = (props) => {
     // window.ethereum.enable();
 
     // console.log("profileAddress", profileAddress);
-    nft_contract_interface.methods
-      .tokensOfOwner(profileAddress)
-      .call()
-      .then((tokenList) => {
-        // console.log("token list of owner", profileAddress, tokenList);
+    // nft_contract_interface.methods
+    //   .tokensOfOwner(profileAddress)
+    //   .call()
+    //   .then((tokenList) => {
+    //     // console.log("token list of owner", profileAddress, tokenList);
 
-        Promise.all(
-          tokenList.map((tokenId) => {
-            // console.log("tokenId", tokenId);
-            return Promise.resolve(
-              nft_contract_interface.methods
-                .nfts(tokenId - 1)
-                .call()
-                .then((currentNftData) => {
-                  //the request below can be send with
-                  //the same time of methods.nfts()
-                  //how
-                  //but need to do promise againever it makes the code more efficient
+    //     Promise.all(
+    //       tokenList.map((tokenId) => {
+    //         // console.log("tokenId", tokenId);
+    //         return Promise.resolve(
+    //           nft_contract_interface.methods
+    //             .nfts(tokenId - 1)
+    //             .call()
+    //             .then((currentNftData) => {
+    //               //the request below can be send with
+    //               //the same time of methods.nfts()
+    //               //how
+    //               //but need to do promise againever it makes the code more efficient
 
-                  return nft_contract_interface.methods
-                    .ownerOf(tokenId)
-                    .call()
-                    .then((owner) => {
-                      return {
-                        ...currentNftData,
-                        id: tokenId - 1,
-                        tokenId: tokenId,
-                        owner: owner,
-                      };
-                    });
-                })
-            );
-          })
-        )
-          .then((values) => {
-            setData(values);
-          })
-          .catch((err) => console.log("err", err));
-      });
-    // contract.getPastEvents("allEvents", { fromBlock: 1}).then(console.log);
-    nft_contract_interface
-      .getPastEvents("nftTransaction", {
-        fromBlock: 0,
-        toBlock: "latest",
-      })
-      .then((events) => {
-        // setTransactions(events);
+    //               return nft_contract_interface.methods
+    //                 .ownerOf(tokenId)
+    //                 .call()
+    //                 .then((owner) => {
+    //                   return {
+    //                     ...currentNftData,
+    //                     id: tokenId - 1,
+    //                     tokenId: tokenId,
+    //                     owner: owner,
+    //                   };
+    //                 });
+    //             })
+    //         );
+    //       })
+    //     )
+    //       .then((values) => {
+    //         setData(values);
+    //       })
+    //       .catch((err) => console.log("err", err));
+    //   });
+    // // contract.getPastEvents("allEvents", { fromBlock: 1}).then(console.log);
+    // nft_contract_interface
+    //   .getPastEvents("nftTransaction", {
+    //     fromBlock: 0,
+    //     toBlock: "latest",
+    //   })
+    //   .then((events) => {
+    //     // setTransactions(events);
 
-        //          [numberSold, setNumberSold]
-        //          [earnedSold, setEarnedSold]
-        //          [numberBought, setNumberBought]
-        //          [spentBought, setSpentBought]
+    //     //          [numberSold, setNumberSold]
+    //     //          [earnedSold, setEarnedSold]
+    //     //          [numberBought, setNumberBought]
+    //     //          [spentBought, setSpentBought]
 
-        //TODO: bu doğru muhtemelen ama kontrol edilmeli
-        //FIXME: Doğruluğundan emin değilim
-        const soldItems = events.filter((item) => {
-          // console.log("item ==> ", item);
-          return (
-            (item.returnValues[1] === "sold" || item.returnValues[1] === "Sold From Auction") &&
-            item.returnValues[2].toLowerCase() === profileAddress.toLowerCase()
-          );
-        });
-        setNumberSold(soldItems.length);
-        var sum = 0;
-        soldItems.forEach((item) => {
-          sum += parseInt(item.returnValues[4]);
-        });
-        setEarnedSold(sum);
-        const boughtItems = events.filter((item) => {
-          return (
-            (item.returnValues[1] === "sold" || item.returnValues[1] === "Sold From Auction") &&
-            item.returnValues[3].toLowerCase() === profileAddress.toLowerCase()
-          );
-        });
-        setNumberBought(boughtItems.length);
-        sum = 0;
-        boughtItems.forEach((item) => {
-          sum += parseInt(item.returnValues[4]);
-        });
-        setSpentBought(sum);
-      });
+    //     //TODO: bu doğru muhtemelen ama kontrol edilmeli
+    //     //FIXME: Doğruluğundan emin değilim
+    //     const soldItems = events.filter((item) => {
+    //       // console.log("item ==> ", item);
+    //       return (
+    //         (item.returnValues[1] === "sold" || item.returnValues[1] === "Sold From Auction") &&
+    //         item.returnValues[2].toLowerCase() === profileAddress.toLowerCase()
+    //       );
+    //     });
+    //     setNumberSold(soldItems.length);
+    //     var sum = 0;
+    //     soldItems.forEach((item) => {
+    //       sum += parseInt(item.returnValues[4]);
+    //     });
+    //     setEarnedSold(sum);
+    //     const boughtItems = events.filter((item) => {
+    //       return (
+    //         (item.returnValues[1] === "sold" || item.returnValues[1] === "Sold From Auction") &&
+    //         item.returnValues[3].toLowerCase() === profileAddress.toLowerCase()
+    //       );
+    //     });
+    //     setNumberBought(boughtItems.length);
+    //     sum = 0;
+    //     boughtItems.forEach((item) => {
+    //       sum += parseInt(item.returnValues[4]);
+    //     });
+    //     setSpentBought(sum);
+    //   });
     setIsLoading(false);
-    console.log("useeffect 😫😩😫😩");
   }, [window.web3.eth, buttonTrigger]);
 
   const UpperProfile = () => {
@@ -416,14 +409,6 @@ const Profile = (props) => {
             <TextField
               value={usernameEditText}
               onChange={(event) => setUsernameEditText(event.target.value)}
-            // onChange={(event) => {
-            //   // event.stopPropagation();
-            //   // event.preventDefault();
-            //   setUsernameEditText(event.target.value);
-            //   console.log("event.target.value", event.target.value);
-            //   console.log("event.target", event.target);
-            //   console.log("issetting", isSetting);
-            // }}
             />
           ) : (
             <Typography variant="h5">
