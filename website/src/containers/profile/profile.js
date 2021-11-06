@@ -67,7 +67,7 @@ import {
   getAllItemsFiltered,
 } from "../../recoils/selectors";
 
-import NftRental from "../../abis/nftRental.json";
+import NftRental from "../../abis/NFTRental.json";
 import addresses from "../../constants/contracts";
 
 import MarketCardList from "../../components/marketCard/marketCardList";

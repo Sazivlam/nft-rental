@@ -39,25 +39,25 @@ instance.safeTransferFrom(accounts[0], accounts[1], 9)
 ```
 ### 1st account rents out 3 items
 ```
-instance.putOnSale(1, 2, 100000, 200000)
-instance.putOnSale(2, 3, 300000, 900000)
-instance.putOnSale(3, 3, 300000, 900000)
+instance.putOnSale(1, 2, 1000000000, 2000000000)
+instance.putOnSale(2, 3, 3000000000, 9000000000)
+instance.putOnSale(3, 3, 3000000000, 9000000000)
 ```
 
 ### 2nd account buys 1 item from 1st account
 ```
-instance.buyFromSale(1, {from: accounts[1], value: 400000})
+instance.buyFromSale(1, {from: accounts[1], value: 4000000000})
 ```
 
 ### 2nd account rents out 2 items
 ```
-instance.putOnSale(7, 3, 300000, 900000, {from: accounts[1]})
-instance.putOnSale(8, 2, 200000, 400000, {from: accounts[1]})
+instance.putOnSale(7, 3, 3000000000, 9000000000, {from: accounts[1]})
+instance.putOnSale(8, 2, 2000000000, 4000000000, {from: accounts[1]})
 ```
 
 ### 1st account buys 1 item from 2nd account
 ```
-instance.buyFromSale(7, {from: accounts[0], value: 2200000})
+instance.buyFromSale(7, {from: accounts[0], value: 18000000000})
 ```
 
 ## Blockchain loaded data

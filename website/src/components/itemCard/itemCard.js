@@ -17,7 +17,7 @@ import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { Grid, Container, Paper } from "@material-ui/core";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 
-import NftRental from "../../abis/nftRental.json";
+import NftRental from "../../abis/NFTRental.json";
 import addresses from "../../constants/contracts";
 import { getUsername } from "../../utils/getUsernameFromAddress";
 
@@ -148,6 +148,48 @@ const ItemCard = ({
 
   const daysFromSeconds = (seconds) => {
     return seconds / 86400;
+  }
+
+  const returnNFT = (id) => {
+    var nft_contract_interface = new window.web3.eth.Contract(
+      NftRental.abi,
+      addresses.NFT_CONTRACTS_ADDRESS
+    );
+    nft_contract_interface.methods
+      .returnNFT(id + 1)
+      .send({ from: window.ethereum.selectedAddress })
+      .then((result) => {
+        console.log(result)
+      })
+      .catch((err) => console.log("err", err));
+  }
+
+  const putOnSale = (id) => {
+    var nft_contract_interface = new window.web3.eth.Contract(
+      NftRental.abi,
+      addresses.NFT_CONTRACTS_ADDRESS
+    );
+    nft_contract_interface.methods
+      .putOnSale(id + 1, 2, 1000000000, 2000000000)
+      .send({ from: window.ethereum.selectedAddress })
+      .then((result) => {
+        console.log(result)
+      })
+      .catch((err) => console.log("err", err));
+  }
+
+  const claimCollateral = (id) => {
+    var nft_contract_interface = new window.web3.eth.Contract(
+      NftRental.abi,
+      addresses.NFT_CONTRACTS_ADDRESS
+    );
+    nft_contract_interface.methods
+      .claimCollateral(id + 1)
+      .send({ from: window.ethereum.selectedAddress })
+      .then((result) => {
+        console.log(result)
+      })
+      .catch((err) => console.log("err", err));
   }
 
   const timeLeft = (rentEndTime) => {
@@ -298,9 +340,7 @@ const ItemCard = ({
                 size="big"
                 className={classes.enabledReturnButton}
                 onClick={() => {
-                  isProfile
-                    ? (window.location.href = owner)
-                    : (window.location.href = "profile/" + owner);
+                  returnNFT(id);
                 }}
               >
                 Return to lender
@@ -313,9 +353,7 @@ const ItemCard = ({
                 className={timeLeft(rentEndTime) < 0 ? classes.enabledReturnButton: classes.disabledReturnButton}
                 disabled={timeLeft(rentEndTime) < 0 ? false : true}
                 onClick={() => {
-                  isProfile
-                    ? (window.location.href = owner)
-                    : (window.location.href = "profile/" + owner);
+                  claimCollateral(id);
                 }}
               >
                 Liquidate borrower
@@ -326,9 +364,7 @@ const ItemCard = ({
                 size="big"
                 className={classes.rentButton}
                 onClick={() => {
-                  isProfile
-                    ? (window.location.href = owner)
-                    : (window.location.href = "profile/" + owner);
+                  putOnSale(id);
                 }}
               >
                 Rent out

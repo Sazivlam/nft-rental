@@ -26,7 +26,7 @@ import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 import { getMyUsername } from "../../recoils/selectors";
 import { myUsername, myAddress } from "../../recoils/atoms";
 
-import NftRental from "../../abis/nftRental.json";
+import NftRental from "../../abis/NFTRental.json";
 
 const useStyles = makeStyles((theme) => ({
   grow: {

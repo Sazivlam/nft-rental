@@ -16,7 +16,7 @@ import LocalOfferSharpIcon from "@material-ui/icons/LocalOfferSharp";
 import { Grid, Container, Paper } from "@material-ui/core";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 
-import NftRental from "../../abis/nftRental.json";
+import NftRental from "../../abis/NFTRental.json";
 import addresses from "../../constants/contracts";
 import { getUsername } from "../../utils/getUsernameFromAddress";
 
@@ -156,7 +156,7 @@ const MarketCard = ({
       .buyFromSale(id + 1)
       .send({ 
         from: window.ethereum.selectedAddress, 
-        value: dailyPrice * daysFromSeconds(rentSeconds) + collateral
+        value: Number(dailyPrice * daysFromSeconds(rentSeconds)) + Number(collateral)
       })
       .then((result) => {
         console.log(result)

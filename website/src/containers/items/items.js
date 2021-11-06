@@ -4,7 +4,7 @@ import ItemTab from "../../components/itemCard/itemTab";
 import Web3 from "web3";
 import * as fs from "fs";
 
-import NftRental from "../../abis/nftRental.json";
+import NftRental from "../../abis/NFTRental.json";
 
 
 import addresses from "../../constants/contracts";
