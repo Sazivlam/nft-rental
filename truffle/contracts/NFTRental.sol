@@ -163,7 +163,7 @@ contract NFTRental is Ownable, ERC721Enumerable {
         uint256 rentEndTime = block.timestamp + nfts[_tokenId - 1].rentSeconds;
         nfts[_tokenId - 1].rentEndTime = rentEndTime;
 
-        // Allows lender to return NFT back
+        // Allows contract to return NFT back
         approve(address(this), _tokenId);
 
         //(address(this)).receive(initialPrice)
@@ -214,7 +214,7 @@ contract NFTRental is Ownable, ERC721Enumerable {
         nfts[_tokenId - 1].lender = payable(address(0));
         
         require(this.getApproved(_tokenId) == address(this), "Borrower did not give allowance for us to return this item.");
-        this.safeTransferFrom(msg.sender, nfts[_tokenId - 1].lender, _tokenId);
+        this.safeTransferFrom(address(this), nfts[_tokenId - 1].lender, _tokenId);
         // delete nfts[_tokenId - 1];
         
     }
