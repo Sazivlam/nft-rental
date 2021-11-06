@@ -21,10 +21,22 @@ import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 
 const Items = () => {
   const [address, setAddress] = React.useState();
-
   const [data, setData] = useRecoilState(allItems);
+  const [zeroAddress] = React.useState("0x0000000000000000000000000000000000000000");
 
-  if(!window.eth && !window.ethereum){
+  const isMine = (owner, myAddress) => {
+    return owner.toLowerCase() == myAddress.toLowerCase();
+  }
+
+  const isNotRented = (currentNftData) => {
+    return currentNftData.lender.toLowerCase() == zeroAddress;
+  }
+
+  const isRentedOut = (currentNftData, myAddress) => {
+    return currentNftData.lender.toLowerCase() == myAddress.toLowerCase();
+  }
+
+  if (!window.eth && !window.ethereum) {
     window.location.href = window.location.origin;
   }
 
@@ -72,17 +84,49 @@ const Items = () => {
                       //but need to do promise again
                       //however it makes the code more efficient
 
-                      return nft_contract_interface.methods
-                        .ownerOf(currentTokenId)
-                        .call()
-                        .then((owner) => {
-                          return {
-                            ...currentNftData,
-                            id: currentTokenId - 1,
-                            owner: owner,
-                          };
-                        });
+                      if (!currentNftData.isOnSale) {
+                        return nft_contract_interface.methods
+                          .ownerOf(currentTokenId)
+                          .call()
+                          .then((owner) => {
+                            if (isMine(owner, myAddress)) {
+                              if (isNotRented(currentNftData)) {
+                                return {
+                                  ...currentNftData,
+                                  id: currentTokenId - 1,
+                                  owner: owner,
+                                  viewType: "owner"
+                                };
+                              } else {
+                                return {
+                                  ...currentNftData,
+                                  id: currentTokenId - 1,
+                                  owner: owner,
+                                  viewType: "rented"
+                                };
+                              }
+                              // if(currentNftData.)
+
+                            } else if (isRentedOut(currentNftData, myAddress)) {
+                              return {
+                                ...currentNftData,
+                                id: currentTokenId - 1,
+                                owner: owner,
+                                viewType: "rentedOut"
+                              };
+                            }
+                            // else {
+                            //   return {
+                            //     ...currentNftData,
+                            //     id: currentTokenId - 1,
+                            //     owner: owner,
+                            //     ownerView: false
+                            //   };
+                            // }
+                          });
+                      }
                     });
+
                 })
             );
           })

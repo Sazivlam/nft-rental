@@ -107,10 +107,10 @@ const ItemTab = () => {
   const [value, setValue] = React.useState(0);
 
   const items = useRecoilValue(allItems);
-  const heads = useRecoilValue(getHeads);
-  const middles = useRecoilValue(getMiddles);
-  const bottoms = useRecoilValue(getBottoms);
-  const allItemsFiltered = useRecoilValue(getAllItemsFiltered);
+  // const heads = useRecoilValue(getHeads);
+  // const middles = useRecoilValue(getMiddles);
+  // const bottoms = useRecoilValue(getBottoms);
+  // const allItemsFiltered = useRecoilValue(getAllItemsFiltered);
 
   const [marketIsBiddable, setMarketIsBiddable] = useRecoilState(isBiddable);
   const [marketIsOnSale, setMarketIsOnSale] = useRecoilState(isOnSale);
@@ -177,21 +177,12 @@ const ItemTab = () => {
           </Grid>
         </Grid>
       </div>
-      {allItemsFiltered.length == 0 ? (
+      {items.length == 0 ? (
         <div>No Items Found</div>
       ) : (
         <>
           <TabPanel value={value} index={0}>
-            {allItemsFiltered.length ? <ItemCardList itemCards={allItemsFiltered} /> : <>No Items Found</>}
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            {heads.length ? <ItemCardList itemCards={heads} isProfile={false} /> : <>No Items Found</>}
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            {middles.length ? <ItemCardList itemCards={middles} isProfile={false} />: <>No Items Found</>}
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            {bottoms.length ? <ItemCardList itemCards={bottoms} isProfile={false} />: <>No Items Found</>}
+            {items.length ? <ItemCardList itemCards={items} /> : <>No Items Found</>}
           </TabPanel>
         </>
       )}

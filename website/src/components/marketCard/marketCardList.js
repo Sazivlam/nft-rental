@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "auto",
     margin: "auto",
   },
+  gridListTile: {
+    height: "auto !important", // remove this and increase 505 height in cellHeight in GridList as alternative
+  },
 }));
 
 const MarketCardList = (props) => {
@@ -65,7 +68,7 @@ const MarketCardList = (props) => {
         //   cardItem.clothType
         // );
         return (
-          <GridListTile key={index}>
+          <GridListTile key={index} className={classes.gridListTile}>
             <MarketCard
               name={cardItem.name}
               owner={cardItem.owner}

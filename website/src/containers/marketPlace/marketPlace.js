@@ -24,6 +24,10 @@ const MarketPlace = () => {
 
   const [data, setData] = useRecoilState(allItems);
 
+  const isMine = (owner, myAddress) => {
+    return owner.toLowerCase() == myAddress.toLowerCase();
+  }
+
   if (!window.eth && !window.ethereum) {
     window.location.href = window.location.origin;
   }
@@ -77,7 +81,7 @@ const MarketPlace = () => {
                           .ownerOf(currentTokenId)
                           .call()
                           .then((owner) => {
-                            if (owner.toString().toLowerCase() == myAddress.toString().toLowerCase()) {
+                            if (isMine(owner, myAddress)) {
                               return {
                                 ...currentNftData,
                                 id: currentTokenId - 1,

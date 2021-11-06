@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "auto",
     margin: "auto",
   },
+  gridListTile: {
+    height: "auto !important", // remove this and increase 505 height in cellHeight in GridList as alternative
+  },
 }));
 
 const ItemCardList = (props) => {
@@ -48,12 +51,19 @@ const ItemCardList = (props) => {
   return (
     <GridList
       spacing={15}
-      cellHeight={470}
+      cellHeight={505}
       cols={getGridListCols()}
       className={classes.gridList}
     >
 
       {props.itemCards.map((cardItem, index) => {
+        if (cardItem === undefined) {
+          return
+        }
+        console.log(cardItem)
+        // console.log(currentNftData.lender.toString().toLowerCase())
+        // console.log(zeroAddress)
+        // console.log(cardItem)
         // console.log(
         //   cardItem.name,
         //   cardItem.rarity,
@@ -63,19 +73,19 @@ const ItemCardList = (props) => {
         //   cardItem.clothType
         // );
         return (
-          <GridListTile key={index}>
+          <GridListTile key={index} className={classes.gridListTile}>
             <ItemCard
               name={cardItem.name}
-              frequency={cardItem.rarity}
               owner={cardItem.owner}
               imageUrl={"images/" + cardItem.imageUrl}
-              price={cardItem.sellPrice}
-              auctionPrice={cardItem.maxBid}
-              type={cardItem.clothType}
-              isBiddable={cardItem.isBiddable}
-              isOnSale={cardItem.isOnSale}
+              dailyPrice={cardItem.dailyPrice}
+              collateral={cardItem.collateral}
+              rentSeconds={cardItem.rentSeconds}
+              rentEndTime={cardItem.rentEndTime}
               id={cardItem.id}
               isProfile={props.isProfile}
+              viewType={cardItem.viewType}
+              lender={cardItem.lender}
             />
           </GridListTile>
         );

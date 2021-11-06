@@ -30,31 +30,33 @@ const useStyles = makeStyles({
   },
   media: {
     height: 220,
-    width: "100%",
+    width: "calc(100% - 50px)",
+    margin: "0 auto",
     borderRadius: 5,
   },
   nftInfoContainer: {
     marginTop: 10,
   },
   nftOwnerContainer: {
-    marginLeft: 10,
+    marginLeft: 25,
     marginBottom: 10
   },
   rentButtonContainer: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20
+    marginBottom: 20,
   },
   rentButton: {
     color: "#FFF",
     backgroundColor: "#080808",
     height: 35,
-    width: "90%",
+    width: "calc(100% - 50px)",
     position: "relative",
     borderRadius: 15,
     border: "4px solid",
     borderColor: "#FFFFFF",
+    marginTop: 5,
     "&:hover": {
       backgroundColor: "#16B421",
       borderColor: "#000",
@@ -65,11 +67,12 @@ const useStyles = makeStyles({
     color: "#FFF",
     backgroundColor: "#080808",
     height: 35,
-    width: "90%",
+    width: "calc(100% - 50px)",
     position: "relative",
     borderRadius: 15,
     border: "4px solid",
     borderColor: "#FFFFFF",
+    marginTop: 5,
     "&:hover": {
       backgroundColor: "#FF0000",
       borderColor: "#000",
@@ -153,7 +156,7 @@ const MarketCard = ({
             />
           </Grid>
           <Grid container direction="column" style={{ marginTop: 10 }}>
-            <Grid item style={{ marginLeft: 15 }}>
+            <Grid item style={{ marginLeft: 25 }}>
               <Typography gutterbottom="true" variant="h6" component="h1">
                 {name}
               </Typography>
@@ -215,7 +218,7 @@ const MarketCard = ({
               </div>
             </Grid>
           </Grid>
-          <Grid container style={{ marginTop: 10, marginBottom: 5 }}>
+          <Grid container style={{ marginTop: 10}}>
             <div className={classes.nftOwnerContainer}>
               <AccountCircleIcon
                 style={{
@@ -227,7 +230,7 @@ const MarketCard = ({
               <Typography variant="caption" style={{
                 verticalAlign: "middle"
               }}>
-                Owner:
+                Lender:
               </Typography>
               <Button
                 size="small"
@@ -253,7 +256,7 @@ const MarketCard = ({
                     : (window.location.href = "profile/" + owner);
                 }}
               >
-                Return
+                Return to my account
               </Button>
             }
             {!ownerView &&
@@ -266,7 +269,7 @@ const MarketCard = ({
                     : (window.location.href = "profile/" + owner);
                 }}
               >
-                Rent
+                Rent from lender
               </Button>
             }
 

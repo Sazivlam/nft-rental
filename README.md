@@ -13,6 +13,55 @@ After deployment check in terminal what contract address is e.g.
 ```contract address:    0xd3940973a3173E48f3ace3A1928bB24d08aDEaF4```
 Then put contract address into ```website/src/constants/contracts.js```. WITHOUT IT UI WILL NOT BE ABLE TO INTERACT WITH DEPLOYED CONTRACT
 
+## Truffle console scenario
+### Get deployed contract and loaded accounts
+```
+let instance = await NFTRental.deployed()
+let accounts = await web3.eth.getAccounts()
+```
+### Mint NFTs
+```
+instance.mintNFT("AK-47 | Bloodsport", "ak47_bloodsport.png")
+instance.mintNFT("AK-47 | Case Hardened", "ak47_case_hardened.png")
+instance.mintNFT("AK-47 | Jaguar", "ak47_jaguar.png")
+instance.mintNFT("AWP | Atheris", "awp_atheris.png")
+instance.mintNFT("AWP | Corticera", "awp_corticera.png")
+instance.mintNFT("AWP | PAW", "awp_paw.png")
+instance.mintNFT("M4A1-S | Basilisk", "m4a1s_basilisk.png")
+instance.mintNFT("M4A1-S | Cyrex", "m4a1s_cyrex.png")
+instance.mintNFT("M4A1-S | Guardian", "m4a1s_guardian.png")
+```
+### Give 3 items to 2nd account
+```
+instance.safeTransferFrom(accounts[0], accounts[1], 7)
+instance.safeTransferFrom(accounts[0], accounts[1], 8)
+instance.safeTransferFrom(accounts[0], accounts[1], 9)
+```
+### 1st account rents out 3 items
+```
+instance.putOnSale(1, 2, 100000, 200000)
+instance.putOnSale(2, 3, 300000, 900000)
+instance.putOnSale(3, 3, 300000, 900000)
+```
+
+### 2nd account buys 1 item from 1st account
+```
+instance.buyFromSale(1, {from: accounts[1], value: 300000})
+```
+
+### 2nd account rents out 2 items
+```
+instance.putOnSale(7, 3, 300000, 900000, {from: accounts[1]})
+instance.putOnSale(8, 2, 200000, 400000, {from: accounts[1]})
+```
+
+### 1st account buys 1 item from 2nd account
+```
+instance.buyFromSale(7, {from: accounts[0], value: 1200000})
+```
+
+## Blockchain loaded data
+Gas Price - 20000000000
 ### Available Accounts:
 0. 0x5fe9dD4c80ab7742B62Fb40CE1fBE37D226645A1 (100 ETH) - Owner of the contract
 1. 0xfB3Ce1611272f443B406BcE2e2dd1eEA85Ad340E (100 ETH)

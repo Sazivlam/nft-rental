@@ -212,18 +212,6 @@ const Navbar = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem onClick={() => {
-                window.location.href = "/items";
-              }}>
-              <SupervisedUserCircleIcon
-                style={{
-                  verticalAlign: "middle",
-                  marginRight: 5,
-                  fontSize: 20,
-                }}
-              />
-              Items
-      </MenuItem>
-      <MenuItem onClick={() => {
                 window.location.href = "/marketplace";
               }}>
               <StorefrontIcon
@@ -233,7 +221,19 @@ const Navbar = () => {
                   fontSize: 20,
                 }}
               />
-              All items
+              Marketplace
+      </MenuItem>
+      <MenuItem onClick={() => {
+                window.location.href = "/items";
+              }}>
+              <WorkIcon
+                style={{
+                  verticalAlign: "middle",
+                  marginRight: 5,
+                  fontSize: 20,
+                }}
+              />
+              Items
       </MenuItem>
       <MenuItem >
       {window.ethereum && !window.ethereum.selectedAddress ? (

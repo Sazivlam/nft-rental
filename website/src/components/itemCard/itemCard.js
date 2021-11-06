@@ -13,6 +13,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import LocalOfferSharpIcon from "@material-ui/icons/LocalOfferSharp";
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { Grid, Container, Paper } from "@material-ui/core";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 
@@ -27,52 +28,54 @@ const useStyles = makeStyles({
     borderRadius: 8,
     color: "#f1ffe3",
     maxHeight: "100%",
-    // "&:hover": {
-    //   boxShadow:
-    //     "0 1px 3px rgba(255,255,255,0.12), 0 1px 3px rgba(255,255,255,0.24)",
-    //   transition: "all 0.3s cubic-bezier(.25,.8,.25,1)",
-    // },
   },
   media: {
     height: 220,
-    width: "100%",
+    width: "calc(100% - 50px)",
+    margin: "0 auto",
     borderRadius: 5,
-    // transition: "transform 0.15s ease-in-out",
-    // "&:hover": {
-    //   transform: "scale3d(1.05, 1.05, 1)",
-    // },
   },
   nftInfoContainer: {
     marginTop: 10,
   },
   nftOwnerContainer: {
-    marginLeft: 10,
+    marginLeft: 25,
     marginBottom: 10
   },
   rentButtonContainer: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20
+    marginBottom: 20,
   },
   rentButton: {
-    // position: "relative",
-    // justifyContent: 'center',
-
     color: "#FFF",
     backgroundColor: "#080808",
     height: 35,
-    width: "90%",
+    width: "calc(100% - 50px)",
     position: "relative",
-    // top: 7,
-    // marginLeft: 120,
-    // marginRight: 10,
-    // marginBottom: 12,
     borderRadius: 15,
     border: "4px solid",
     borderColor: "#FFFFFF",
+    marginTop: 5,
     "&:hover": {
-      backgroundColor: "#FFF",
+      backgroundColor: "#16B421",
+      borderColor: "#000",
+      color: "#000",
+    },
+  },
+  returnButton: {
+    color: "#FFF",
+    backgroundColor: "#080808",
+    height: 35,
+    width: "calc(100% - 50px)",
+    position: "relative",
+    borderRadius: 15,
+    border: "4px solid",
+    borderColor: "#FFFFFF",
+    marginTop: 5,
+    "&:hover": {
+      backgroundColor: "#FF0000",
       borderColor: "#000",
       color: "#000",
     },
@@ -111,16 +114,16 @@ const MyTooltip = withStyles((theme) => ({
 
 const ItemCard = ({
   name,
-  frequency,
   owner,
   imageUrl,
-  price,
-  auctionPrice,
-  type,
-  isBiddable,
-  isOnSale,
+  dailyPrice,
+  collateral,
+  rentSeconds,
   id,
   isProfile,
+  viewType,
+  lender,
+  rentEndTime
 }) => {
   const classes = useStyles();
   // var owner = ;
@@ -128,6 +131,14 @@ const ItemCard = ({
   const [usernameToBeShown, setUsernameToBeShown] = React.useState(
     owner.slice(0, 4) + "..." + owner.slice(owner.length - 2, owner.length)
   );
+
+  const [lenderToBeShown, setLenderToBeShown] = React.useState(
+    lender.slice(0, 4) + "..." + lender.slice(lender.length - 2, lender.length)
+  );
+
+  const daysFromSeconds = (seconds) => {
+    return seconds / 86400;
+  }
 
   React.useEffect(async () => {
     var nft_contract_interface = new window.web3.eth.Contract(
@@ -137,6 +148,10 @@ const ItemCard = ({
 
     getUsername(nft_contract_interface, owner).then((data) => {
       setUsernameToBeShown(data.username);
+    });
+
+    getUsername(nft_contract_interface, lender).then((data) => {
+      setLenderToBeShown(data.username);
     });
   }, [window.web3.eth]);
 
@@ -152,109 +167,157 @@ const ItemCard = ({
             />
           </Grid>
           <Grid container direction="column" style={{ marginTop: 10 }}>
-            <Grid item style={{ marginLeft: 15 }}>
+            <Grid item style={{ marginLeft: 25 }}>
               <Typography gutterbottom="true" variant="h6" component="h1">
                 {name}
               </Typography>
             </Grid>
-            <Grid item style={{ alignSelf: "flex-start", marginLeft: 25 }}>
-              <div style={{ textAlign: "left" }}>
+            {(viewType == "rentedOut" || viewType == "rented") &&
+              <Grid item style={{ alignSelf: "flex-start", marginLeft: 25 }}>
+                <div style={{ textAlign: "left" }}>
+                  <div className={classes.nftInfoContainer}>
+                    <LocalOfferSharpIcon
+                      style={{
+                        verticalAlign: "middle",
+                        marginRight: 5,
+                        fontSize: 20,
+                      }}
+                    />
+                    <MyTooltip title={window.web3.utils.fromWei(dailyPrice).toString()} arrow>
+                      <Typography variant="caption" style={{
+                        verticalAlign: "middle"
+                      }}>
+                        Daily price [ETH]: {dailyPrice ? window.web3.utils.fromWei(dailyPrice.toString()) : "-"}
+                      </Typography>
+                    </MyTooltip>
+                  </div>
+                </div>
                 <div className={classes.nftInfoContainer}>
-                  <LocalOfferSharpIcon
-                    style={{
-                      verticalAlign: "middle",
-                      marginRight: 5,
-                      fontSize: 20,
-                    }}
-                  />
-                  {/* <MyTooltip title={window.web3.utils.fromWei(price).toString()} arrow>
-                    <Typography variant="caption" style={{
-                      verticalAlign: "middle"
-                    }}>
-                      Daily price [ETH]: {isOnSale ? window.web3.utils.fromWei(price.toString()).slice(0, 5) + " Ξ" : "-"}
-                    </Typography>
-                  </MyTooltip> */}
+                  <div>
+                    <CalendarTodayIcon
+                      style={{
+                        verticalAlign: "middle",
+                        marginRight: 5,
+                        fontSize: 20,
+                      }}
+                    />
+                    <MyTooltip title={daysFromSeconds(rentSeconds).toString()} arrow>
+                      <Typography variant="caption" style={{
+                        verticalAlign: "middle"
+                      }}>
+                        Max duration [days]: {rentSeconds ? daysFromSeconds(rentSeconds).toString() : "-"}
+                      </Typography>
+                    </MyTooltip>
+                  </div>
                 </div>
-              </div>
-              <div className={classes.nftInfoContainer}>
-                <div>
-                  <AccessTimeIcon
-                    style={{
-                      verticalAlign: "middle",
-                      marginRight: 5,
-                      fontSize: 20,
-                    }}
-                  />
-                  {/* <MyTooltip title={window.web3.utils.fromWei(auctionPrice).toString()} arrow>
-                    <Typography variant="caption" style={{
-                      verticalAlign: "middle"
-                    }}>
-                      Max duration [days]: {isBiddable ? window.web3.utils.fromWei(auctionPrice.toString()).slice(0, 5) + " Ξ" : "-"}
-                    </Typography>
-                  </MyTooltip> */}
+                <div className={classes.nftInfoContainer}>
+                  <div>
+                    <AccessTimeIcon
+                      style={{
+                        verticalAlign: "middle",
+                        marginRight: 5,
+                        fontSize: 20,
+                      }}
+                    />
+                    <MyTooltip title={daysFromSeconds(rentEndTime).toString()} arrow>
+                      <Typography variant="caption" style={{
+                        verticalAlign: "middle"
+                      }}>
+                        Time left [seconds]: {rentEndTime ? rentEndTime - Math.floor(Date.now()/1000) : "-"}
+                      </Typography>
+                    </MyTooltip>
+                  </div>
                 </div>
-              </div>
-              <div className={classes.nftInfoContainer}>
-                <div>
-                  <AccountBalanceIcon
-                    style={{
-                      verticalAlign: "middle",
-                      marginRight: 5,
-                      fontSize: 20,
-                    }}
-                  />
-                  {/* <MyTooltip title={window.web3.utils.fromWei(auctionPrice).toString()} arrow>
-                    <Typography variant="caption" style={{
-                      verticalAlign: "middle"
-                    }}>
-                      Collateral [ETH]: {isBiddable ? window.web3.utils.fromWei(auctionPrice.toString()).slice(0, 5) + " Ξ" : "-"}
-                    </Typography>
-                  </MyTooltip> */}
+                <div className={classes.nftInfoContainer}>
+                  <div>
+                    <AccountBalanceIcon
+                      style={{
+                        verticalAlign: "middle",
+                        marginRight: 5,
+                        fontSize: 20,
+                      }}
+                    />
+                    <MyTooltip title={window.web3.utils.fromWei(collateral).toString()} arrow>
+                      <Typography variant="caption" style={{
+                        verticalAlign: "middle"
+                      }}>
+                        Collateral [ETH]: {collateral ? window.web3.utils.fromWei(collateral.toString()) : "-"}
+                      </Typography>
+                    </MyTooltip>
+                  </div>
                 </div>
+              </Grid>
+            }
+          </Grid>
+          {(viewType == "rentedOut" || viewType == "rented") &&
+            <Grid container style={{ marginTop: 10 }}>
+              <div className={classes.nftOwnerContainer}>
+                <AccountCircleIcon
+                  style={{
+                    verticalAlign: "middle",
+                    marginRight: 4,
+                    fontSize: 24,
+                  }}
+                />
+                <Typography variant="caption" style={{
+                  verticalAlign: "middle"
+                }}>
+                  Lender:
+                </Typography>
+                <Button
+                  size="small"
+                  className={classes.myButton}
+                  onClick={() => {
+                    isProfile
+                      ? (window.location.href = lender)
+                      : (window.location.href = "profile/" + lender);
+                  }}
+                >
+                  {lenderToBeShown}
+                </Button>
               </div>
             </Grid>
-          </Grid>
-          {/* <Grid container style={{ marginTop: 10, marginBottom: 5 }}>
-            <div className={classes.nftOwnerContainer}>
-              <AccountCircleIcon
-                style={{
-                  verticalAlign: "middle",
-                  marginRight: 4,
-                  fontSize: 24,
-                }}
-              />
-              <Typography variant="caption" style={{
-                verticalAlign: "middle"
-              }}>
-                Owner:
-              </Typography>
+          }
+          <Grid container className={classes.rentButtonContainer}>
+            {viewType == "rented" &&
               <Button
-                size="small"
-                className={classes.myButton}
+                size="big"
+                className={classes.returnButton}
                 onClick={() => {
                   isProfile
                     ? (window.location.href = owner)
                     : (window.location.href = "profile/" + owner);
                 }}
               >
-                {usernameToBeShown}
+                Return to lender
               </Button>
-            </div>
-          </Grid> */}
-          <Grid container className={classes.rentButtonContainer}>
-
-            <Button
-              size="big"
-              className={classes.rentButton}
-              onClick={() => {
-                isProfile
-                  ? (window.location.href = owner)
-                  : (window.location.href = "profile/" + owner);
-              }}
-            >
-              Return
-            </Button>
-
+            }
+            {viewType == "rentedOut" &&
+              <Button
+                size="big"
+                className={classes.returnButton}
+                onClick={() => {
+                  isProfile
+                    ? (window.location.href = owner)
+                    : (window.location.href = "profile/" + owner);
+                }}
+              >
+                Return from borower
+              </Button>
+            }
+            {viewType == "owner" &&
+              <Button
+                size="big"
+                className={classes.rentButton}
+                onClick={() => {
+                  isProfile
+                    ? (window.location.href = owner)
+                    : (window.location.href = "profile/" + owner);
+                }}
+              >
+                Rent out
+              </Button>
+            }
           </Grid>
         </Grid>
       </Grid>
