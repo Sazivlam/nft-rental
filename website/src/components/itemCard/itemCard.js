@@ -64,7 +64,7 @@ const useStyles = makeStyles({
       color: "#000",
     },
   },
-  returnButton: {
+  enabledReturnButton: {
     color: "#FFF",
     backgroundColor: "#080808",
     height: 35,
@@ -79,6 +79,16 @@ const useStyles = makeStyles({
       borderColor: "#000",
       color: "#000",
     },
+  },
+  disabledReturnButton: {
+    backgroundColor: "#080808",
+    height: 35,
+    width: "calc(100% - 50px)",
+    position: "relative",
+    borderRadius: 15,
+    border: "4px solid",
+    borderColor: "grey",
+    marginTop: 5,
   },
   myButton: {
     color: "#FFF",
@@ -138,6 +148,10 @@ const ItemCard = ({
 
   const daysFromSeconds = (seconds) => {
     return seconds / 86400;
+  }
+
+  const timeLeft = (rentEndTime) => {
+    return rentEndTime - Math.floor(Date.now()/1000)
   }
 
   React.useEffect(async () => {
@@ -219,11 +233,11 @@ const ItemCard = ({
                         fontSize: 20,
                       }}
                     />
-                    <MyTooltip title={daysFromSeconds(rentEndTime).toString()} arrow>
+                    <MyTooltip title={timeLeft(rentEndTime)} arrow>
                       <Typography variant="caption" style={{
                         verticalAlign: "middle"
                       }}>
-                        Time left [seconds]: {rentEndTime ? rentEndTime - Math.floor(Date.now()/1000) : "-"}
+                        Time left [seconds]: {rentEndTime ? timeLeft(rentEndTime) : "-"}
                       </Typography>
                     </MyTooltip>
                   </div>
@@ -282,7 +296,7 @@ const ItemCard = ({
             {viewType == "rented" &&
               <Button
                 size="big"
-                className={classes.returnButton}
+                className={classes.enabledReturnButton}
                 onClick={() => {
                   isProfile
                     ? (window.location.href = owner)
@@ -295,14 +309,16 @@ const ItemCard = ({
             {viewType == "rentedOut" &&
               <Button
                 size="big"
-                className={classes.returnButton}
+                
+                className={timeLeft(rentEndTime) < 0 ? classes.enabledReturnButton: classes.disabledReturnButton}
+                disabled={timeLeft(rentEndTime) < 0 ? false : true}
                 onClick={() => {
                   isProfile
                     ? (window.location.href = owner)
                     : (window.location.href = "profile/" + owner);
                 }}
               >
-                Return from borower
+                Liquidate borrower
               </Button>
             }
             {viewType == "owner" &&
