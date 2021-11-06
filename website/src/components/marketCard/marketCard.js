@@ -133,6 +133,20 @@ const MarketCard = ({
     return seconds / 86400;
   }
 
+  const cancelSale = (id) => {
+    var nft_contract_interface = new window.web3.eth.Contract(
+      NftRental.abi,
+      addresses.NFT_CONTRACTS_ADDRESS
+    );
+    nft_contract_interface.methods
+      .cancelSale(id + 1)
+      .send({ from: window.ethereum.selectedAddress })
+      .then((result) => {
+        console.log(result)
+      })
+      .catch((err) => console.log("err", err));
+  }
+
   React.useEffect(async () => {
     var nft_contract_interface = new window.web3.eth.Contract(
       NftRental.abi,
@@ -218,7 +232,7 @@ const MarketCard = ({
               </div>
             </Grid>
           </Grid>
-          <Grid container style={{ marginTop: 10}}>
+          <Grid container style={{ marginTop: 10 }}>
             <div className={classes.nftOwnerContainer}>
               <AccountCircleIcon
                 style={{
@@ -251,9 +265,7 @@ const MarketCard = ({
                 size="small"
                 className={classes.returnButton}
                 onClick={() => {
-                  isProfile
-                    ? (window.location.href = owner)
-                    : (window.location.href = "profile/" + owner);
+                  cancelSale(id);
                 }}
               >
                 Return to my account
