@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import FaceIcon from "@material-ui/icons/Face";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
@@ -106,15 +106,40 @@ const ItemTab = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const items = useRecoilValue(allItems);
+  const items = useRecoilValue(allItems);  
   // const heads = useRecoilValue(getHeads);
   // const middles = useRecoilValue(getMiddles);
   // const bottoms = useRecoilValue(getBottoms);
   // const allItemsFiltered = useRecoilValue(getAllItemsFiltered);
 
-  const [marketIsBiddable, setMarketIsBiddable] = useRecoilState(isBiddable);
-  const [marketIsOnSale, setMarketIsOnSale] = useRecoilState(isOnSale);
   const [marketRariryLevel, setMarketRariryLevel] = useRecoilState(rarityLevel);
+
+  const [isOwner, setIsOwner] = useState(false); //useRecoilState(isBiddable)
+  const [isRented, setIsRented] = useState(false); //useRecoilState(isOnSale)
+  const [isRentedOut, setIsRentedOut] = useState(false); //useRecoilState(isOnSale)
+
+  const getDisplayedItems = useMemo(() => {
+    if (isOwner || isRented || isRentedOut) {
+      let displayedItems = [];
+  
+      if (isOwner) {
+        const ownerItems = items.filter(item => item?.viewType === 'owner');
+        displayedItems = displayedItems.concat(ownerItems);
+      }
+      if (isRented) {
+        const rentedItems = items.filter(item => item?.viewType === 'rented');
+        displayedItems = displayedItems.concat(rentedItems);
+      }
+      if (isRentedOut) {
+        const rentedOutItems = items.filter(item => item?.viewType === 'rentedOut');
+        displayedItems = displayedItems.concat(rentedOutItems);
+      }
+  
+      return displayedItems;
+    }
+
+    return items;
+  }, [items, isOwner, isRented, isRentedOut]);
 
   // console.log("allItems", items);
   // console.log("heads", heads);
@@ -124,6 +149,7 @@ const ItemTab = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
   return (
     <div className={classes.root}>
       <div style={{ marginTop: 20, marginLeft: 45, marginRight: 60 }}>
@@ -146,27 +172,40 @@ const ItemTab = () => {
                   <FormControlLabel
                     control={
                       <Switch
-                        checked={marketIsBiddable}
+                        checked={isOwner}
                         onChange={() => {
-                          setMarketIsBiddable(!marketIsBiddable);
+                          setIsOwner(!isOwner);
                         }}
-                        name="Renting"
+                        name="Mine"
                       />
                     }
-                    label="Renting"
+                    label="Mine"
                     labelPlacement="start"
                   />
                   <FormControlLabel
                     control={
                       <Switch
-                        checked={marketIsOnSale}
+                        checked={isRented}
                         onChange={() => {
-                          setMarketIsOnSale(!marketIsOnSale);
+                          setIsRented(!isRented);
                         }}
-                        name="Selling"
+                        name="Rented"
                       />
                     }
-                    label="Selling"
+                    label="Rented"
+                    labelPlacement="start"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={isRentedOut}
+                        onChange={() => {
+                          setIsRentedOut(!isRentedOut);
+                        }}
+                        name="Rented out"
+                      />
+                    }
+                    label="Rented out"
                     labelPlacement="start"
                   />
                 </FormGroup>
@@ -177,12 +216,12 @@ const ItemTab = () => {
           </Grid>
         </Grid>
       </div>
-      {items.length == 0 ? (
+      {getDisplayedItems.length == 0 ? (
         <div>No Items Found</div>
       ) : (
         <>
           <TabPanel value={value} index={0}>
-            {items.length ? <ItemCardList itemCards={items} /> : <>No Items Found</>}
+            {getDisplayedItems.length ? <ItemCardList itemCards={getDisplayedItems} /> : <>No Items Found</>}
           </TabPanel>
         </>
       )}

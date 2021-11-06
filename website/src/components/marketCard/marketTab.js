@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import FaceIcon from "@material-ui/icons/Face";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
@@ -117,17 +117,90 @@ const MarketTab = () => {
   // console.log("middles", middles);
   // console.log("bottoms", bottoms);
 
+  const [isOwner, setIsOwner] = useState(false); //useRecoilState(isBiddable)
+  const [isOthers, setIsOthers] = useState(false); //useRecoilState(isOnSale)
+
+  const getDisplayedItems = useMemo(() => {
+    if (isOwner || isOthers) {
+      let displayedItems = [];
+  
+      if (isOwner) {
+        const ownerItems = items.filter(item => item?.ownerView);
+        displayedItems = displayedItems.concat(ownerItems);
+      }
+      if (isOthers) {
+        const othersItems = items.filter(item => !item?.ownerView);
+        displayedItems = displayedItems.concat(othersItems);
+      }
+
+      return displayedItems;
+    }
+
+    return items;
+  }, [items, isOwner, isOthers]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   return (
     <div className={classes.root}>
-      {items.length == 0 ? (
+            <div style={{ marginTop: 20, marginLeft: 45, marginRight: 60 }}>
+        <Grid
+          container
+          direction="row"
+          justify="space-between"
+          alignItems="flex-start"
+        >
+          <Grid item xs={10}>
+            <Grid
+              container
+              direction="column"
+              justify="space-between"
+              alignItems="flex-start"
+            >
+              <Grid item>Filter By:</Grid>
+              <Grid item>
+                <FormGroup row style={{ marginLeft: -16 }}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={isOwner}
+                        onChange={() => {
+                          setIsOwner(!isOwner);
+                        }}
+                        name="Mine"
+                      />
+                    }
+                    label="Mine"
+                    labelPlacement="start"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={isOthers}
+                        onChange={() => {
+                          setIsOthers(!isOthers);
+                        }}
+                        name="Others"
+                      />
+                    }
+                    label="Others"
+                    labelPlacement="start"
+                  />
+                </FormGroup>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={2}>
+          </Grid>
+        </Grid>
+      </div>
+      {getDisplayedItems.length == 0 ? (
         <div>No Items Found</div>
       ) : (
         <>
           <TabPanel value={value} index={0}>
-            {items.length ? <MarketCardList marketCards={items} /> : <>No Items Found</>}
+            {getDisplayedItems.length ? <MarketCardList marketCards={getDisplayedItems} /> : <>No Items Found</>}
           </TabPanel>
         </>
       )}
