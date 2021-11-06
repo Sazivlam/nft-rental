@@ -46,7 +46,7 @@ instance.putOnSale(3, 3, 300000, 900000)
 
 ### 2nd account buys 1 item from 1st account
 ```
-instance.buyFromSale(1, {from: accounts[1], value: 300000})
+instance.buyFromSale(1, {from: accounts[1], value: 400000})
 ```
 
 ### 2nd account rents out 2 items
@@ -57,7 +57,7 @@ instance.putOnSale(8, 2, 200000, 400000, {from: accounts[1]})
 
 ### 1st account buys 1 item from 2nd account
 ```
-instance.buyFromSale(7, {from: accounts[0], value: 1200000})
+instance.buyFromSale(7, {from: accounts[0], value: 2200000})
 ```
 
 ## Blockchain loaded data
