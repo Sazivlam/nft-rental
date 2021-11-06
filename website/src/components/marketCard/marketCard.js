@@ -147,6 +147,23 @@ const MarketCard = ({
       .catch((err) => console.log("err", err));
   }
 
+  const buyFromSale = (id) => {
+    var nft_contract_interface = new window.web3.eth.Contract(
+      NftRental.abi,
+      addresses.NFT_CONTRACTS_ADDRESS
+    );
+    nft_contract_interface.methods
+      .buyFromSale(id + 1)
+      .send({ 
+        from: window.ethereum.selectedAddress, 
+        value: dailyPrice * daysFromSeconds(rentSeconds) + collateral
+      })
+      .then((result) => {
+        console.log(result)
+      })
+      .catch((err) => console.log("err", err));
+  }
+
   React.useEffect(async () => {
     var nft_contract_interface = new window.web3.eth.Contract(
       NftRental.abi,
@@ -276,9 +293,7 @@ const MarketCard = ({
                 size="small"
                 className={classes.rentButton}
                 onClick={() => {
-                  isProfile
-                    ? (window.location.href = owner)
-                    : (window.location.href = "profile/" + owner);
+                  buyFromSale(id);
                 }}
               >
                 Rent from lender
