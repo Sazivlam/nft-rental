@@ -11,39 +11,34 @@ contract NFTRental is Ownable, ERC721Enumerable {
     uint constant DAY_IN_SECONDS = 86400;
     uint16 public constant MAX_NFT_SUPPLY = 1000;
 
-    struct nftData {
+    struct NFTRentData {
         string name;
         string imageUrl;
         uint256 id;
         bool isOnSale;
         address payable lender;
-        //address custodian;
+        //address custodian;     # for supporting NFTs from other contracts
         uint256 rentSeconds;
         uint256 rentEndTime;
         uint256 dailyPrice;
         uint256 collateral;
     }
 
-    struct userData {
-        string username;
-        uint256 userBalance;
-    }
-
-    event nftTransaction(
+    event Transaction(
+        string transactionType,
         uint256 indexed id,
         uint8 maxDurationInDays,
         uint256 dailyPrice,
         uint256 collateral,
         uint256 rentEndTime,
-        string transactionType,
         address fromAddress,
         address toAddress,
         uint256 value
     );
 
-    mapping(address => userData) public users;
+    mapping(address => string) public users;  // address => username
 
-    nftData[] public nfts;
+    NFTRentData[] public nfts;
     uint256 public maxSupply;
     uint256 public rentFee = 50; // in basis points, so 50 => 0.5%
 
@@ -57,7 +52,7 @@ contract NFTRental is Ownable, ERC721Enumerable {
     
     
     function setUsername(string memory _username) public {
-        users[msg.sender].username = _username;
+        users[msg.sender] = _username;
     }
     
 
@@ -76,17 +71,7 @@ contract NFTRental is Ownable, ERC721Enumerable {
     }
     */
     
-    
-    /*function withdrawMoney(uint256 _amount) public {
-        require(users[msg.sender].userBalance >= _amount, "You do not have enough balance to withdraw this amount");
-
-        users[msg.sender].userBalance -= _amount;
-        msg.sender.transfer(_amount);
-    }*/
-    
-
-
-    function putOnSale(uint256 _tokenId, uint8 _maxDurationInDays, uint256 _dailyPrice, uint256 _collateral) public {
+    function putOnMarket(uint256 _tokenId, uint8 _maxDurationInDays, uint256 _dailyPrice, uint256 _collateral) public {
         require(msg.sender == this.ownerOf(_tokenId), "You cannot put this item on sale, because you are not the owner of it");
         //require(msg.sender == nfts[_tokenId - 1].custodian, "You cannot put this item on sale, because you are not its custodian");
         require(nfts[_tokenId - 1].isOnSale == false, "Item is already on sale.");
@@ -102,22 +87,22 @@ contract NFTRental is Ownable, ERC721Enumerable {
         uint256 value = _dailyPrice * _maxDurationInDays + _collateral;
 
         approve(address(this), _tokenId);
-        // safeTransfer(msg.sender, address(this), _tokenId); // also checks that msg.sender in fact owns _tokenId
+        // safeTransfer(msg.sender, address(this), _tokenId);
 
-        emit nftTransaction(
+        emit Transaction(
+            "NFT On Market",
             _tokenId,
             _maxDurationInDays,
             _dailyPrice,
             _collateral,
             0,
-            "On Sale",
             msg.sender,
             address(0x0),
             value
         ); 
     }
 
-    function cancelSale(uint256 _tokenId) public {
+    function removeFromMarket(uint256 _tokenId) public {
         require(nfts[_tokenId - 1].isOnSale == true, "Item should be on sale to cancel sale.");
         require(msg.sender == this.ownerOf(_tokenId), "You cannot cancel the sale of this item, because you are not the owner.");
         //require(nfts[_tokenId - 1].custodian == msg.sender, "You cannot cancel the sale of this item, because you did not put it on sale.");
@@ -127,20 +112,20 @@ contract NFTRental is Ownable, ERC721Enumerable {
 
         //safeTransfer(address(this), msg.sender, _tokenId);
 
-        emit nftTransaction(
+        emit Transaction(
+            "NFT Removed",
             _tokenId,
             0,
             0,
             0,
             0,
-            "Sale Cancelled",
             msg.sender,
             address(0),
             0
         ); 
     }
 
-    function buyFromSale(uint256 _tokenId) public payable {
+    function borrowFromMarket(uint256 _tokenId) public payable {
         require(msg.sender != this.ownerOf(_tokenId), "You cannot borrow your own item!");
         require(msg.sender != nfts[_tokenId - 1].lender, "You cannot borrow an item that you lend!");
         //require(nfts[_tokenId - 1].custodian != msg.sender, "You cannot buy your own item.");
@@ -153,11 +138,7 @@ contract NFTRental is Ownable, ERC721Enumerable {
         
         address sellerAddress = this.ownerOf(_tokenId);
         this.safeTransferFrom(sellerAddress, msg.sender, _tokenId);
-        
-        //safeTransfer(address(this), msg.sender, _tokenId);
-        //users[lender].userBalance += msg.value;
-        // users[msg.sender].userBalance -= msg.value;
-        
+            
         nfts[_tokenId - 1].isOnSale = false;
         //nfts[_tokenId - 1].custodian = msg.sender;
         uint256 rentEndTime = block.timestamp + nfts[_tokenId - 1].rentSeconds;
@@ -166,15 +147,13 @@ contract NFTRental is Ownable, ERC721Enumerable {
         // Allows contract to return NFT back
         approve(address(this), _tokenId);
 
-        //(address(this)).receive(initialPrice)
-
-        emit nftTransaction(
+        emit Transaction(
+            "NFT Sold",
             _tokenId,
             0,
             0,
             0,
             rentEndTime,
-            "NFT Sold",
             nfts[_tokenId - 1].lender,
             msg.sender,
             initialPrice
@@ -195,28 +174,22 @@ contract NFTRental is Ownable, ERC721Enumerable {
         uint256 rentToLender = nfts[_tokenId - 1].dailyPrice / DAY_IN_SECONDS * secondsRented;
         (nfts[_tokenId - 1].lender).transfer(rentToLender*((10000-rentFee)/10000)); // small fee is taken and kept in contract
 
-        emit nftTransaction(
+        emit Transaction(
+            "NFT Returned",
             _tokenId,
             0,
             0,
             0,
             0,
-            "NFT Returned",
             address(this),
             msg.sender,
             moneyBack
         );
 
         nfts[_tokenId - 1].isOnSale = false;
-        nfts[_tokenId - 1].rentSeconds = 0;
-        nfts[_tokenId - 1].dailyPrice = 0;
-        nfts[_tokenId - 1].collateral = 0;
-        nfts[_tokenId - 1].lender = payable(address(0));
         
         require(this.getApproved(_tokenId) == address(this), "Borrower did not give allowance for us to return this item.");
-        this.safeTransferFrom(address(this), nfts[_tokenId - 1].lender, _tokenId);
-        // delete nfts[_tokenId - 1];
-        
+        this.safeTransferFrom(msg.sender, nfts[_tokenId - 1].lender, _tokenId);        
     }
     
     function claimCollateral(uint256 _tokenId) public {
@@ -232,13 +205,13 @@ contract NFTRental is Ownable, ERC721Enumerable {
         uint256 moneyToLender = nfts[_tokenId - 1].dailyPrice / DAY_IN_SECONDS * nfts[_tokenId - 1].rentSeconds + nfts[_tokenId - 1].collateral;
         (payable(msg.sender)).transfer(moneyToLender*((10000-rentFee)/10000));  // small fee is taken and kept in contract
 
-        emit nftTransaction(
+        emit Transaction(
+            "Collateral Claimed",
             _tokenId,
             0,
             0,
             0,
             0,
-            "Collateral Claimed",
             address(this),
             msg.sender,
             moneyToLender
@@ -252,7 +225,7 @@ contract NFTRental is Ownable, ERC721Enumerable {
         require(newItemId < MAX_NFT_SUPPLY, "You cannot mint any more items since you already reached the maximum supply");
 
         nfts.push(
-            nftData(
+            NFTRentData(
                 _name,
                 _imageUrl,
                 newItemId,
@@ -268,13 +241,13 @@ contract NFTRental is Ownable, ERC721Enumerable {
         
         _mint(msg.sender, newItemId);
         
-        emit nftTransaction(
+        emit Transaction(
+            "NFT Minted",
             newItemId,
             0,
             0,
             0,
             0,
-            "NFT Minted",
             address(0x0),
             msg.sender, 
             0
