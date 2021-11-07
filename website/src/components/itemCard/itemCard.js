@@ -170,7 +170,7 @@ const ItemCard = ({
       addresses.NFT_CONTRACTS_ADDRESS
     );
     nft_contract_interface.methods
-      .putOnMarket(id + 1, 2, 1000000000, 2000000000)
+      .putOnMarket(id + 1, 2, 1000000000000000, 2000000000000000)
       .send({ from: window.ethereum.selectedAddress })
       .then((result) => {
         console.log(result)
