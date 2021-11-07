@@ -398,11 +398,14 @@ const Profile = (props) => {
     return (
       <Grid
         container
-        direction="row"
+        direction="column"
         justify="space-around"
         alignItems="center"
       >
 
+        <Typography variant="h5">
+          Your username
+        </Typography>
         {/* <Grid item xs={6} direction="row"> */}
         <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
           {isSetting ? (
