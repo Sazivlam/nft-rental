@@ -1,11 +1,18 @@
 # nft-rental
 ## BBD class group project
+### Dependencies
+Docker
 
+Truffle
+
+Metamask browser extension
+
+# How to start
 To start project run ```docker-compose up```
 
 React client can be accessed by going to ```localhost:3000```
 
-To deploy smart contract to our local blockchain go to ```truffle``` folder and run ```truffle migrate``` or ```truffle migrate --reset```. 
+To deploy smart contract to the local blockchain go to ```truffle``` folder and run ```truffle migrate``` or ```truffle migrate --reset```. 
 
 If smart contract code was changed then run ```truffle compile``` and the run ```truffle migrate```
 
@@ -13,6 +20,10 @@ After deployment check in terminal what contract address is e.g.
 ```contract address:    0xd3940973a3173E48f3ace3A1928bB24d08aDEaF4```
 Then put contract address into ```website/src/constants/contracts.js```. WITHOUT IT UI WILL NOT BE ABLE TO INTERACT WITH DEPLOYED CONTRACT
 Also in addition to that you need to manually copy new compiled ```NFTRental.json``` ABI file from ```truffle/build/contracts``` to ```website/scr/abis```
+
+Then you can go to ```localhost:3000``` and using Metamask wallet authorise as one of the users from the "Blockchain loaded data" section. Easiest option is to import account into metamask by using account's private key. Don't forget to switch Metamask to ```localhost:8545``` network. After authorisation, refresh the page. It is advised to use first two accounts, because only for them we provide truffle console commands scenario (can be seen in Truffle console scenario section) to initialize nfts in the marketplace.
+
+If there is no data in Marketplace and Items section, then you should execute truffle console setup scenario. This can be done by running ```truffle console``` inside ```truffle``` folder and then running commands specified in the following section.
 
 ## Truffle console scenario
 ### Get deployed contract and loaded accounts
