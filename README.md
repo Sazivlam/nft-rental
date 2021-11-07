@@ -12,6 +12,7 @@ If smart contract code was changed then run ```truffle compile``` and the run ``
 After deployment check in terminal what contract address is e.g. 
 ```contract address:    0xd3940973a3173E48f3ace3A1928bB24d08aDEaF4```
 Then put contract address into ```website/src/constants/contracts.js```. WITHOUT IT UI WILL NOT BE ABLE TO INTERACT WITH DEPLOYED CONTRACT
+Also in addition to that you need to manually copy new compiled ```NFTRental.json``` ABI file from ```truffle/build/contracts``` to ```website/scr/abis```
 
 ## Truffle console scenario
 ### Get deployed contract and loaded accounts
