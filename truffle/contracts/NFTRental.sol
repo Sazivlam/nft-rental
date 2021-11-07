@@ -202,8 +202,9 @@ contract NFTRental is Ownable, ERC721Enumerable {
         nfts[_tokenId - 1].lender = payable(address(0));
         
         // Send the full rent + collateral to lender.
-        uint256 moneyToLender = nfts[_tokenId - 1].dailyPrice / DAY_IN_SECONDS * nfts[_tokenId - 1].rentSeconds + nfts[_tokenId - 1].collateral;
-        (payable(msg.sender)).transfer(moneyToLender*((10000-rentFee)/10000));  // small fee is taken and kept in contract
+        uint256 collateral = nfts[_tokenId - 1].collateral;
+        uint256 moneyToLender = nfts[_tokenId - 1].dailyPrice / DAY_IN_SECONDS * nfts[_tokenId - 1].rentSeconds + collateral;
+        (payable(msg.sender)).transfer((moneyToLender-collateral)*((10000-rentFee)/10000));  // small fee is taken and kept in contract
 
         emit Transaction(
             "Collateral Claimed",
