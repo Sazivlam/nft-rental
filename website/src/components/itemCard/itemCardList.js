@@ -60,7 +60,6 @@ const ItemCardList = (props) => {
         if (cardItem === undefined) {
           return
         }
-        console.log(cardItem)
         // console.log(currentNftData.lender.toString().toLowerCase())
         // console.log(zeroAddress)
         // console.log(cardItem)

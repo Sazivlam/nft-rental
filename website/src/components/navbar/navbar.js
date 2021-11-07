@@ -135,9 +135,9 @@ const Navbar = () => {
         smart_contract_interface.methods
           .users(myAddress)
           .call()
-          .then((data) => {
+          .then((username) => {
             // console.log("dataa", data);
-            setUsername(data.username);
+            setUsername(username);
           })
           .catch((error) => {
             console.log(error);

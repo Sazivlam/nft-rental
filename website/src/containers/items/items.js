@@ -28,8 +28,9 @@ const Items = () => {
     return owner.toLowerCase() == myAddress.toLowerCase();
   }
 
-  const isNotRented = (currentNftData) => {
-    return currentNftData.lender.toLowerCase() == zeroAddress;
+  const isNotRented = (currentNftData, myAddress) => {
+    return currentNftData.lender.toLowerCase() == zeroAddress || 
+    currentNftData.lender.toLowerCase() == myAddress.toLowerCase();
   }
 
   const isRentedOut = (currentNftData, myAddress) => {
@@ -90,7 +91,7 @@ const Items = () => {
                           .call()
                           .then((owner) => {
                             if (isMine(owner, myAddress)) {
-                              if (isNotRented(currentNftData)) {
+                              if (isNotRented(currentNftData, myAddress)) {
                                 return {
                                   ...currentNftData,
                                   id: currentTokenId - 1,

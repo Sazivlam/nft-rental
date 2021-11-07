@@ -578,7 +578,7 @@ const Profile = (props) => {
       // <Paper variant="outlined" className={classes.paper}>
       <>
         <UpperProfile />
-        <LowerProfile />
+        {/* <LowerProfile /> */}
       </>
       // </Paper>
     );

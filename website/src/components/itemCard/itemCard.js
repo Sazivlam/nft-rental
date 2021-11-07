@@ -164,13 +164,13 @@ const ItemCard = ({
       .catch((err) => console.log("err", err));
   }
 
-  const putOnSale = (id) => {
+  const putOnMarket = (id) => {
     var nft_contract_interface = new window.web3.eth.Contract(
       NftRental.abi,
       addresses.NFT_CONTRACTS_ADDRESS
     );
     nft_contract_interface.methods
-      .putOnSale(id + 1, 2, 1000000000, 2000000000)
+      .putOnMarket(id + 1, 2, 1000000000, 2000000000)
       .send({ from: window.ethereum.selectedAddress })
       .then((result) => {
         console.log(result)
@@ -203,11 +203,11 @@ const ItemCard = ({
     );
 
     getUsername(nft_contract_interface, owner).then((data) => {
-      setUsernameToBeShown(data.username);
+      setUsernameToBeShown(data);
     });
 
     getUsername(nft_contract_interface, lender).then((data) => {
-      setLenderToBeShown(data.username);
+      setLenderToBeShown(data);
     });
   }, [window.web3.eth]);
 
@@ -364,7 +364,7 @@ const ItemCard = ({
                 size="big"
                 className={classes.rentButton}
                 onClick={() => {
-                  putOnSale(id);
+                  putOnMarket(id);
                 }}
               >
                 Rent out

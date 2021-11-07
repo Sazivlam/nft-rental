@@ -133,13 +133,13 @@ const MarketCard = ({
     return seconds / 86400;
   }
 
-  const cancelSale = (id) => {
+  const removeFromMarket = (id) => {
     var nft_contract_interface = new window.web3.eth.Contract(
       NftRental.abi,
       addresses.NFT_CONTRACTS_ADDRESS
     );
     nft_contract_interface.methods
-      .cancelSale(id + 1)
+      .removeFromMarket(id + 1)
       .send({ from: window.ethereum.selectedAddress })
       .then((result) => {
         console.log(result)
@@ -147,13 +147,13 @@ const MarketCard = ({
       .catch((err) => console.log("err", err));
   }
 
-  const buyFromSale = (id) => {
+  const borrowFromMarket = (id) => {
     var nft_contract_interface = new window.web3.eth.Contract(
       NftRental.abi,
       addresses.NFT_CONTRACTS_ADDRESS
     );
     nft_contract_interface.methods
-      .buyFromSale(id + 1)
+      .borrowFromMarket(id + 1)
       .send({ 
         from: window.ethereum.selectedAddress, 
         value: Number(dailyPrice * daysFromSeconds(rentSeconds)) + Number(collateral)
@@ -170,8 +170,8 @@ const MarketCard = ({
       addresses.NFT_CONTRACTS_ADDRESS
     );
 
-    getUsername(nft_contract_interface, owner).then((data) => {
-      setUsernameToBeShown(data.username);
+    getUsername(nft_contract_interface, owner).then((username) => {
+      setUsernameToBeShown(username);
     });
   }, [window.web3.eth]);
 
@@ -282,7 +282,7 @@ const MarketCard = ({
                 size="small"
                 className={classes.returnButton}
                 onClick={() => {
-                  cancelSale(id);
+                  removeFromMarket(id);
                 }}
               >
                 Return to my account
@@ -293,7 +293,7 @@ const MarketCard = ({
                 size="small"
                 className={classes.rentButton}
                 onClick={() => {
-                  buyFromSale(id);
+                  borrowFromMarket(id);
                 }}
               >
                 Rent from lender
